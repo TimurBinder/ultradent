@@ -49,6 +49,7 @@ p, a {
 main {
     overflow: hidden;
     position: relative;
+    padding-top: 150px;
 }
 
 input {
@@ -450,7 +451,10 @@ opacity: 0;
     padding-top: 15px;
     overflow: visible;
     position: relative;
-    z-index: 10000;
+    z-index: 1000000;
+    background-color: #fff;
+    width: 100vw;
+    position: fixed;
 }
 
 .header__row:first-child {
@@ -464,6 +468,7 @@ opacity: 0;
     align-items: center;
     box-shadow: 3px 4px 17px 3px rgba(0, 0, 0, 0.2);
     position: relative;
+    background-color: #fff;
 }
 
 .header__row:last-child .content {
@@ -2979,10 +2984,24 @@ opacity: 0;
 /* Вакансии */
 .vacancy__bg {
     position: absolute;
+    bottom: -15%;
+}
+
+#vacancy__bg-1 {
+    left: 0;
+}
+
+#vacancy__bg-2 {
+    right: 0;
 }
 
 .vacancy__first-screen {
     padding-top: 200px;
+    position: relative;
+}
+
+.vacancy__first-screen .content {
+    position: relative;
 }
 
 .vacancy__first-screen__offer {
@@ -3692,6 +3711,72 @@ opacity: 0;
     font-size: 14px;
 }
 
+/* Страница Услуга */
+.option__first-screen {
+    background-image: url('../img/options/optionCard/bg.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 5px 17px 3px rgba(0, 0, 0, 0.2);
+}
+
+.option__first-screen__offer {
+    width: 600px;
+}
+
+.option__first-screen__offer__subtitle {
+    font-size: 24px;
+    font-weight: 599;
+}
+
+.option__first-screen__offer__title {
+    color: #07bb80;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.option__first-screen__offer__desc {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.option__first-screen__offer__desc-list {
+    margin-bottom: 40px;
+}
+
+.option__first-screen__offer__btn {
+    padding: 20px 30px;
+}
+
+.options__first-screen__img {
+    width: 50%;
+}
+
+.option__info {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.option__info .wrap img {
+    width: 30%;
+}
+
+.option__info .wrap {
+    margin-bottom: 80px;
+}
+
+.option__info__offer {
+    width: 50%;
+}
+
+.option__info__offer__title {
+    margin-bottom: 20px;
+}
+
+.option__info__offer__desc {
+    line-height: 160%;
+}
+
 /* Модальное окно Обратный звонок */
 .call-modal {
     width: 100vw;
@@ -3749,6 +3834,10 @@ opacity: 0;
 .call-modal__agreement a {
     color: #09b97f;
     text-decoration: none;
+}
+
+.call-modal__btn {
+    padding: 15px;
 }
 
 @media (max-width: 1400px) {

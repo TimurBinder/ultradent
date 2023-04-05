@@ -90,16 +90,10 @@ function openPhotoModal(photo) {
 }
 
 // Ленивая загрузка
-try {
-    [].forEach.call(document.querySelectorAll('img[data-src]'),    function(img) {
-        img.setAttribute('src', img.getAttribute('data-src'));
-        img.onload = function() {
-        img.removeAttribute('data-src');
-        };
-    });
-} catch (e) {
-    console.error('No lazy');
-}
+[].forEach.call(document.querySelectorAll('img[data-src]'),    function(img) {
+    img.setAttribute('src', img.getAttribute('data-src'));
+    img.removeAttribute('data-src');
+});
 
 // Карта
 try {
@@ -938,10 +932,12 @@ phoneMask();
 
 try {
     const callModal = document.querySelector('.call-modal');
-    const callModalBtn = document.querySelector('#call-modal-btn');
+    const callModalBtn = document.querySelectorAll('[data-call-modal]');
 
-    callModalBtn.addEventListener('click', () => {
-        callModal.style.display = "flex";
+    callModalBtn.forEach(btn => {
+        btn.addEventListener('click', () => {
+            callModal.style.display = "flex";
+        });
     });
 
     callModal.addEventListener('click', (e) => {
