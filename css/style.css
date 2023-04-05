@@ -246,7 +246,7 @@ opacity: 0;
     margin-right: 20px;
 }
 
-.social {
+.socials {
     position: fixed;
     right: -10px;
     top: 30%;
@@ -259,17 +259,17 @@ opacity: 0;
     padding-right: 18px;
 }
 
-.social__item {
+.social {
     padding: 15px;
     padding-bottom: 13px;
     padding-right: 0;
 }
 
-.social a:first-child .social__item {
+.socials a:first-child .social {
     padding-bottom: 0px;
 }
 
-.social__item__icon {
+.social img {
     width: 28px;
     height: 28px;
 }
