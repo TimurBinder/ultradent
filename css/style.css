@@ -249,7 +249,7 @@ opacity: 0;
 .socials {
     position: fixed;
     right: -10px;
-    top: 30%;
+    top: 200px;
     display: flex;
     flex-direction: column;
     border-radius: 16px;
