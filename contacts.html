@@ -154,105 +154,70 @@
             </div>
         </section>
 
-        <!-- Фото клиники -->
-        <section class="gallery">
-            <div class="content">
-                <div class="gallery__offer">
-                    <h3 class="gallery__title">Фото клиники</h3>
-                    <p class="gallery__subtitle mobile">Онлайн экскурсия по нашей стоматологии</p>
-                    <div class="gallery__info">
-                        <p data-clinic class="gallery__info__clinic">
-                            Стоматология на Челюскинцев
-                        </p>
-                        <p data-room class="gallery__info__room">
-                            Главный холл клиники
-                        </p>
-                    </div>
-                    <div class="gallery__slider__counter">
-                        <span id="gallery__current"></span>/<span id="gallery__count"></span>
-                    </div>
-                </div>
-
-                <!-- Слайдер -->
+        <!-- Клиники в VR -->
+        <section class="vr">
             <div class="content">
 
-                <div class="gallery__slider__arrows">
-                    <svg class="gallery__slider__arrow" id="gallery__slider__arrow-left" viewBox="0 0 23 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22 37L2 19L22 1" stroke="#5B5B5B" stroke-width="2"/>
-                    </svg>
-                    <svg class="gallery__slider__arrow" id="gallery__slider__arrow-right" viewBox="0 0 23 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 1L21 19L1 37" stroke="#5B5B5B" stroke-width="2"/>
-                    </svg> 
+                <div class="vr__offer">
+                    <h3 class="vr__offer__title"><span class="pc">Откройте для себя клинику онлайн</span><span class="mobile">Наши клиники на карте</span></h3>
+                    <p class="vr__offer__intro pc">Посетите филиалы Стоматологии “Ультра-Дент” уже сейчас.<br> Ознакомьтесь с уютной атмосферой и высокотехнологичным оборудованием.
+                    </p>
                 </div>
-                <div class="gallery__slider">
-                        
-                    <!-- Слайд -->
-                    <div class="gallery__slider__item">
-                        <img src="img/banners/1.jpg" alt="Фото">
-                        <div class="gallery__slider__item__info">
-                            <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
-                            <p data-room class="gallery__slider__item__info__review">«...на её лице была лучезарная улыбка, и она сказала: “Мама, в первый раз мне было так комфортно, не больно.”»--------</p>
-                        </div>
+
+                <div class="vr__list-wrap">
+                    <div class="vr__list__arrow-block pc">
+                        <svg class="vr__list__arrow" id="vr__list__arrow-left" viewBox="0 0 13 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="0.5" cy="12.5" r="12.5" fill="#F4F4F4"/>
+                            <path d="M7 8L2 12.5L7 17" stroke="black"/>
+                        </svg>
+                            
+                        <svg class="vr__list__arrow" id="vr__list__arrow-right" viewBox="0 0 14 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12.5" cy="12.5" r="12.5" fill="#F4F4F4"/>
+                            <path d="M6 17L11 12.5L6 8" stroke="black"/>
+                        </svg>
                     </div>
 
-                    <!-- Слайд -->
-                    <div class="gallery__slider__item">
-                        <img src="img/banners/1.jpg" alt="">
-                        <div class="gallery__slider__item__info">
-                            <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
-                            <p data-room class="gallery__slider__item__info__review">«...на её лице была лучезарная улыбка, и она сказала: “Мама, в первый раз мне было так комфортно, не больно.”»--------</p>
+                    <div class="vr__list">
+                        <div class="vr__list__item" data-mark-from="57.15806110137792" data-mark-to="65.53653935056697">
+                            <div class="vr__list__item__bg-dark pc"></div>
+                            <img data-src="icon/3d.svg" alt="" class="vr__list__item__3d pc">
+                            <img data-src="img/main/vr/1.png" alt="Клиника" class="vr__list__item__img pc">
+                            <div class="vr__list__item__offer">
+                                <p class="vr__list__item__offer__text">Стоматология <span class="mobile">Ультра-Дент</span></p>
+                                <h3 class="vr__list__item__offer__name">На Челюскинцев <span class="mobile">14/7</span></h3>
+                                <p class="vr__list__item__btn btn-second1 mobile">Записаться на прием</p>
+                                <a class="mobile" href="https://yandex.ru/maps/org/ultra_dent/157070105871/?from=tabbar&ll=65.536178%2C57.157813&source=serp_navig&z=17.08">Открыть в Яндекс.Навигатор</a>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Слайд -->
-                    <div class="gallery__slider__item gallery__slider__item-active">
-                        <img src="img/banners/1.jpg" alt="">
-                        <div class="gallery__slider__item__info">
-                            <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
-                            <p data-room class="gallery__slider__item__info__review">«...на её лице была лучезарная улыбка, и она сказала: “Мама, в первый раз мне было так комфортно, не больно.”»--------</p>
-                        </div>
-                    </div>
-
-                    <!-- Слайд -->
-                    <div class="gallery__slider__item">
-                        <img src="img/banners/1.jpg" alt="">
-                        <div class="gallery__slider__item__info">
-                            <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
-                            <p data-room class="gallery__slider__item__info__review">«...на её лице была лучезарная улыбка, и она сказала: “Мама, в первый раз мне было так комфортно, не больно.”»--------</p>
-                        </div>
-                    </div>
-
-                    <!-- Слайд -->
-                    <div class="gallery__slider__item">
-                        <img src="img/banners/1.jpg" alt="">
-                        <div class="gallery__slider__item__info">
-                            <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
-                            <p data-room class="gallery__slider__item__info__review">«...на её лице была лучезарная улыбка, и она сказала: “Мама, в первый раз мне было так комфортно, не больно.”»--------</p>
-                        </div>
-                    </div>
-
-                    <!-- Слайд -->
-                    <div class="gallery__slider__item">
-                        <img src="img/banners/1.jpg" alt="">
-                        <div class="gallery__slider__item__info">
-                            <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
-                            <p data-room class="gallery__slider__item__info__review">«...на её лице была лучезарная улыбка, и она сказала: “Мама, в первый раз мне было так комфортно, не больно.”»--------</p>
-                        </div>
-                    </div>
-
-                    <!-- Слайд -->
-                    <div class="gallery__slider__item">
-                        <img src="img/banners/1.jpg" alt="Фото клиники">
-                        <div class="gallery__slider__item__info">
-                            <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
-                            <p data-room class="gallery__slider__item__info__review">«...на её лице была лучезарная улыбка, и она сказала: “Мама, в первый раз мне было так комфортно, не больно.”»--------</p>
-                        </div>
-                    </div>
     
-                </div>    
-            </div>
+                        <div class="vr__list__item" data-mark-from="57.15910230642477" data-mark-to="65.5255380313497">
+                            <div class="vr__list__item__bg-dark pc"></div>
+                            <img data-src="icon/3d.svg" alt="" class="vr__list__item__3d pc">
+                            <img data-src="img/main/vr/2.png" alt="Клиника" class="vr__list__item__img pc">
+                            <div class="vr__list__item__offer">
+                                <p class="vr__list__item__offer__text">Стоматология <span class="mobile">Ультра-Дент</span></p>
+                                <h3 class="vr__list__item__offer__name">На Республики <span class="mobile">29</span></h3>
+                                <p class="vr__list__item__btn btn-second1 mobile">Записаться на прием</p>
+                                <a class="mobile" href="https://yandex.ru/maps/org/ultra_dent/157070105871/?from=tabbar&ll=65.536178%2C57.157813&source=serp_navig&z=17.08">Открыть в Яндекс.Навигатор</a>
+                            </div>
+                        </div>
 
+                        <div class="vr__list__item" data-mark-from="57.15806110137792" data-mark-to="65.53653935056697">
+                            <div class="vr__list__item__bg-dark pc"></div>
+                            <img data-src="icon/3d.svg" alt="" class="vr__list__item__3d pc">
+                            <img data-src="img/main/vr/2.png" alt="Клиника" class="vr__list__item__img pc">
+                            <div class="vr__list__item__offer">
+                                <p class="vr__list__item__offer__text">Стоматология <span class="mobile">Ультра-Дент</span></p>
+                                <h3 class="vr__list__item__offer__name">На Республики <span class="mobile">29</span></h3>
+                                <p class="vr__list__item__btn btn-second1 mobile">Записаться на прием</p>
+                                <a class="mobile" href="https://yandex.ru/maps/org/ultra_dent/157070105871/?from=tabbar&ll=65.536178%2C57.157813&source=serp_navig&z=17.08">Открыть в Яндекс.Навигатор</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+            <div class="vr__map pc" id="map"></div>
         </section>
 
         <!-- Форма заказа звонка -->
@@ -403,30 +368,6 @@
             2022 © Ультра-Дент. Все права защищены.
         </div>
     </footer>
-    
-    <div class="call-modal">
-        <div class="modal-close">
-            <hr><hr>
-        </div>
-        <div class="call-modal__offer">
-            <h2 class="call-modal__title">Обратный звонок</h2>
-            <form action="#" method="POST" class="call-modal__form">
-                <div class="call-modal__input-block">
-                    <span>Имя</span>
-                    <input type="text" required name="name" placeholder="Имя">
-                </div>
-
-                <div class="call-modal__input-block">
-                    <span>Телефон</span>
-                    <input type="tel" required name="phone" placeholder="Телефон">
-                </div>
-                <button type="submit" class="call-modal__btn btn1">Отправить</button>
-            </form>
-            <p class="call-modal__agreement">
-                Нажимая кнопку «Отправить», Вы даете согласие на обработку персональных данных в соответствии с <a href="#">Политикой конфиденциальности</a>
-            </p>
-        </div>
-    </div>
 
     <script src="js/phoneMask.js"></script>
     <script src="js/modals.js"></script>
