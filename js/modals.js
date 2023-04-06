@@ -6,6 +6,149 @@ function createElementByHTML(tagName, className, innerHTML)
     return element;
 }
 
+class Modal {
+    window = createElementByHTML('div', 'modal', '');
+    modal = createElementByHTML('div', 'modal__block', '');
+    close = createElementByHTML('div', 'modal-close', '<hr><hr>');
+
+    constructor() {
+        if (this.constructor == Modal)
+            throw new Error('cannot use an abstract class');
+    }
+
+    draw(parent, position) {
+        parent.insertAdjacentElement(position, this.window);
+        document.querySelector('body').style.overflowY = 'hidden';
+        phoneMask();
+        console.log(this.modal.clientHeight, window.innerHeight);
+        if (this.modal.clientHeight > window.innerHeight) {
+            this.window.style.paddingTop = "5%";
+        }
+    }
+
+    remove() {
+        this.window.remove();
+        document.querySelector('body').style.overflowY = 'scroll';
+    }
+
+    createModal() {
+        this.window.insertAdjacentElement('beforeend', this.close);
+        this.window.insertAdjacentElement('beforeend', this.modal);
+        this.window.addEventListener('click', (e) => {
+            if (e.target == this.window || e.target == this.close || e.target == this.close.querySelector('hr:first-child')|| e.target == this.close.querySelector('hr:last-child'))
+                this.remove();
+        });
+    }
+}
+
+class CallModal extends Modal{
+    form = this.#createForm();
+    title = createElementByHTML('h2', 'modal__title', 'Обратный звонок');
+    agreement = createElementByHTML('p', 'modal__agreement', 'Нажимая кнопку «Отправить», Вы даете согласие на обработку персональных данных в соответствии с <a href="#">Политикой конфиденциальности</a>');
+
+    constructor() {
+        super();
+        this.createModal();
+    }
+
+    createModal() {
+        super.createModal();
+        this.modal.insertAdjacentElement('beforeend', this.title);
+        this.modal.insertAdjacentElement('beforeend', this.form);
+        this.modal.insertAdjacentElement('beforeend', this.agreement);
+    }
+
+    #createForm() {
+        let form = createElementByHTML('form', 'modal__form', '');
+
+        let nameInputBlock = createElementByHTML('div', 'modal__input-block', '<span>Имя</span><input type="text" required name="name" placeholder="Имя">');
+        let phoneInputBlock = createElementByHTML('div', 'modal__input-block', '<span>Телефон</span><input type="tel" required name="phone" pattern="\\+7[0-9]{10}" maxlength="12" placeholder="Телефон">');
+        let button = createElementByHTML('button', 'modal__btn btn1', 'Отправить');
+
+        button.type = 'submit';
+        form.method = 'POST';
+        form.setAttribute('autocomplete', 'off');
+
+        form.insertAdjacentElement('beforeend', nameInputBlock);
+        form.insertAdjacentElement('beforeend', phoneInputBlock);
+        form.insertAdjacentElement('beforeend', button);
+
+        return form;
+    }
+}
+
+// let vacancyOptions = 
+// [
+//     {
+//         vacancyName: "Врача Стоматолога-Хирурга",
+//         descList: [
+//             {
+//                 sectionName: "Обязанности",
+//                 list: [
+//                     "Хирургический прием и лечение пациентов:", 
+//                     "Разработка плана обследования и лечения пациента:",
+//                     "Имплантация; костные пластики;", 
+//                     "Послеоперационное ведение пациента;",
+//                     "Заполнение медицинской документации"
+//                 ]
+//             },
+//             {
+//                 sectionName: "Требования",
+//                 list: [
+//                     "Наличие действующего сертификата по хирургии;", 
+//                     "Опыт имплантации;", 
+//                     "Опыт работы от 3-х лет."
+//                 ]
+//             },
+//             {
+//                 sectionName: "Условия",
+//                 list: [
+//                     "Высокая заработная плата;", 
+//                     "Комфортные условия работы;", 
+//                     "Перспективы профессионального развития внутри компании;", 
+//                     "Оформление по ТК;"
+//                 ]
+//             }
+//         ]
+//     },
+// ];
+
+class VacancyModal extends CallModal {
+    #vacancyName; 
+    #offer = createElementByHTML('div', 'modal__offer', '');
+
+    constructor(vacancyName, options) {
+        super();
+        this.#vacancyName = vacancyName;
+        this.createModal(options);
+        this.title.textContent = 'Открыта вакансия на должность ' + vacancyName;
+        this.title.classList.add('modal-vacancy__title');
+        this.window.classList.add('vacancy-modal');
+    }
+
+    createModal(options) {
+        super.createModal();
+        if (options == undefined) return;
+        options.forEach(optionItem => {
+            this.#offer.insertAdjacentElement('beforeend', this.#createOfferSection(optionItem.sectionName, optionItem.list));
+        });
+        this.form.insertAdjacentElement('afterbegin', this.#offer);
+    }
+
+    #createOfferSection(titleName, listArray) {
+        let offerSection = createElementByHTML('div', 'modal__offer', '');
+        let title = createElementByHTML('h3', 'modal__offer__title', titleName);
+        let list = createElementByHTML('ul', 'modal__offer__list dashed', '');
+        listArray.forEach(item => {
+            list.insertAdjacentElement('beforeend', createElementByHTML('li', '', item));
+        });
+        offerSection.insertAdjacentElement('beforeend', title);
+        offerSection.insertAdjacentElement('beforeend', list);
+        return offerSection;
+    }
+}
+
+
 class CalculatorList {
     #list = document.createElement('div');
     #itemsArray = []; #itemsCount;

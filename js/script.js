@@ -76,7 +76,6 @@ function openPhotoModal(photo) {
         photoModalImg.addEventListener('touchmove', (event) => {
             let transform = 
             photoModalImg.style.transform = `translateY(-${firstTouch.touches[0].clientY - event.touches[0].clientY}px) scale(${1 - ((firstTouch.touches[0].clientY - event.touches[0].clientY) / 1000)})`;
-            console.log();
         });
 
         photoModalImg.addEventListener('touchend', (event) => {
@@ -314,8 +313,8 @@ try {
             document.querySelector('.about-staff__main-card__img').style.transitionDuration = `0ms`;
 
             setTimeout(function() {
-                document.querySelector('.about-staff__main-card__img').style.height = `300px`;
                 document.querySelector('.about-staff__main-card__img').style.transitionDuration = `300ms`;   
+                document.querySelector('.about-staff__main-card__img').style.height = `300px`;
             },4)
         });
     });
@@ -581,11 +580,9 @@ try {
     
         const videoReviewsSwitchPrev = () => {
             videoReviewsSlideCurrent--;
-            console.log(videoReviewsSlideCurrent);
             videoReviewsSlide = videoReviewsSlider.querySelectorAll('.video-reviews__slider__item');
             if (videoReviewsSlideCurrent < 0) {
                 videoReviewsSlideCurrent = videoReviewsSlideCount;
-                console.log(videoReviewsSlideCurrent);
                 videoReviewsSlide.forEach(item => {
                     item.style.transitionDuration = '0ms';
                     item.style.transform = `translateX(-${videoReviewsSlideCurrent * videoReviewsSlideWidth}px)`;
@@ -602,7 +599,6 @@ try {
                     item.style.transitionDuration = '400ms';
                     item.style.transform = `translateX(-${videoReviewsSlideWidth * videoReviewsSlideCurrent}px)`;
                 });
-                console.log(videoReviewsSlideCurrent, videoReviewsSlide[0].style.transform);
                 videoReviewsSlide.forEach(item => {
                     item.classList.remove('video-reviews__slider__item-active');
                 });
@@ -669,7 +665,6 @@ try {
                         item.querySelector('video').muted = true;
                         item.querySelector('video').controls = false;
                     }
-                    console.log(!item.classList.contains('video-reviews__slider__item-active-run'));
                 }
             });
         });
@@ -763,11 +758,9 @@ try {
 
     const gallerySwitchPrev = () => {
         gallerySlideCurrent--;
-        console.log(gallerySlideCurrent);
         gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
         if (gallerySlideCurrent < 0) {
             gallerySlideCurrent = gallerySlideCount;
-            console.log(gallerySlideCurrent);
             gallerySlide.forEach(item => {
                 item.style.transitionDuration = '0ms';
                 item.style.transform = `translateX(-${gallerySlideCurrent * gallerySlideWidth}px)`;
@@ -784,7 +777,6 @@ try {
                 item.style.transitionDuration = '400ms';
                 item.style.transform = `translateX(-${gallerySlideWidth * gallerySlideCurrent}px)`;
             });
-            console.log(gallerySlideCurrent, gallerySlide[0].style.transform);
             gallerySlide.forEach(item => {
                 item.classList.remove('gallery__slider__item-active');
             });
@@ -931,20 +923,161 @@ try {
 phoneMask();
 
 try {
-    const callModal = document.querySelector('.call-modal');
     const callModalBtn = document.querySelectorAll('[data-call-modal]');
+    const callModal = new CallModal();
 
     callModalBtn.forEach(btn => {
-        btn.addEventListener('click', () => {
-            callModal.style.display = "flex";
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            callModal.draw(document.querySelector('body'), 'beforeend');
         });
     });
 
-    callModal.addEventListener('click', (e) => {
-        if (e.target == callModal || e.target == callModal.querySelector('.modal-close')) {
-            callModal.style.display = "none";
-        }
-    });
 } catch(e) {
     console.log(e);
 }
+
+// try {
+    let vacancyOptions = 
+    [
+        {
+            vacancyName: "Врача Стоматолога-Хирурга",
+            descList: [
+                {
+                    sectionName: "Обязанности",
+                    list: [
+                        "Хирургический прием и лечение пациентов:", 
+                        "Разработка плана обследования и лечения пациента:",
+                        "Имплантация; костные пластики;", 
+                        "Послеоперационное ведение пациента;",
+                        "Заполнение медицинской документации"
+                    ]
+                },
+                {
+                    sectionName: "Требования",
+                    list: [
+                        "Наличие действующего сертификата по хирургии;", 
+                        "Опыт имплантации;", 
+                        "Опыт работы от 3-х лет."
+                    ]
+                },
+                {
+                    sectionName: "Условия",
+                    list: [
+                        "Высокая заработная плата;", 
+                        "Комфортные условия работы;", 
+                        "Перспективы профессионального развития внутри компании;", 
+                        "Оформление по ТК;"
+                    ]
+                }
+            ]
+        },
+        {
+            vacancyName: "Врача Стоматолога-Ортопеда",
+            descList: [
+                {
+                    sectionName: "Обязанности",
+                    list: [
+                        "Консультация первичных пациентов, составления плана лечения, ведение медицинской документации.", 
+                        "Навыки протезирования: несъемные протезы ( безметалловые реставрации, виниры, на имплантатах), съемное протезирование (частичные и бюгельные протезы).",
+                        "Имплантация; костные пластики;", 
+                        "Работа с артикулятором и лицевой дугой.",
+                    ]
+                },
+                {
+                    sectionName: "Требования",
+                    list: [
+                        "Действующий сертификат по специальности «Стоматология ортопедическая».", 
+                        "Опыт работы врачом стоматологом ортопедом - от 2 лет.", 
+                    ]
+                },
+                {
+                    sectionName: "Условия",
+                    list: [
+                        "Официальное трудоустройство по ТК РФ (трудовая книжка, оплата больничных, отпускных)", 
+                        "Стабильная и своевременная выплата заработной платы и отпускных ( два раза в месяц 26 и 15 числа)", 
+                        "Бесплатные ресертификационные курсы для постоянных сотрудников (после 6 мес. Работы в клинике)", 
+                        "График работы сменный: Первая смена с 9 до 15 часов, вторая с 15 до 21 часов,",
+                        "Удобная транспортная доступность"
+                    ]
+                }
+            ]
+        },
+        {
+            vacancyName: "Врача Стоматолога-Терапевта",
+            descList: [
+                {
+                    sectionName: "Обязанности",
+                    list: [
+                        "Согласно профессиональным требованиям и стандартам.", 
+                    ]
+                },
+                {
+                    sectionName: "Требования",
+                    list: [
+                        "Консультация первичных пациентов, составления плана лечения, ведение медицинской документации.", 
+                        "Владение навыками современного эндодонтического лечение, реставрации, использование в работе прогрессивных способов диагностики и лечения стоматологических заболеваний", 
+                        "Приветствуется опыт работы под микроскопом"
+                    ]
+                },
+                {
+                    sectionName: "Условия",
+                    list: [
+                        "Официальное трудоустройство по ТК РФ (трудовая книжка, оплата больничных, отпускных)", 
+                        "Стабильная и своевременная выплата заработной платы и отпускных ( два раза в месяц 26 и 15 числа)", 
+                        "Бесплатные ресертификационные курсы для постоянных сотрудников (после 6 мес. Работы в клинике)", 
+                        "График работы сменный: Первая смена с 9 до 15 часов, вторая с 15 до 21 часов,",
+                        "Удобная транспортная доступность"
+                    ]
+                }
+            ]
+        },
+        {
+            vacancyName: "Ассистента стоматолога",
+            descList: [
+                {
+                    sectionName: "Обязанности",
+                    list: [
+                        "Подготовка кабинета для приема;", 
+                        "Помощь врачу во время приема;",
+                        "Работа в 4 руки с врачом;", 
+                    ]
+                },
+                {
+                    sectionName: "Требования",
+                    list: [
+                        "Опыт работы Ассистентом-стоматолога от 6 мес;", 
+                        "Действующий сертификат сестринское дело, (сестринское дело в работе процедурных кабинетов, сестринское дело в стоматологии);", 
+                        "Наличие действующей медицинской книжки;",
+                        "Знание санитарных норм и правил;"
+                    ]
+                },
+                {
+                    sectionName: "Условия",
+                    list: [
+                        "Официальное трудоустройство по ТК РФ (трудовая книжка, оплата больничных, отпускных)", 
+                        "Стабильная и своевременная выплата заработной платы и отпускных ( два раза в месяц 26 и 15 числа)", 
+                        "Бесплатные ресертификационные курсы для постоянных сотрудников (после 6 мес. Работы в клинике)", 
+                        "График работы сменный: Первая смена с 9 до 15 часов, вторая с 15 до 21 часов,",
+                        "Удобная транспортная доступность"
+                    ]
+                }
+            ]
+        },
+    ];
+
+    const vacancyModalBtn = document.querySelectorAll('[data-vacancy-modal]');
+    let vacancyModalsArray = [];
+    vacancyOptions.forEach(option => {
+        vacancyModalsArray.push(new VacancyModal(option.vacancyName, option.descList));
+    });
+
+    vacancyModalBtn.forEach((btn, index) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            vacancyModalsArray[index].draw(document.querySelector('body'), 'beforeend');
+        });
+    });
+// } catch(e) {
+//     console.log(e);
+// }
