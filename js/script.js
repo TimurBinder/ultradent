@@ -43,56 +43,36 @@ function openVideoModal(video) {
     });
 }
 
-function openPhotoModal(photo) {
-    let photoModal = document.createElement('div');
-    photoModal.classList.add('photo__modal');
-    photoModal.innerHTML = `<img src="${photo.src}" class="photo__modal__photo" controls> <div class="video-modal__cross"><hr class="video-modal__cross-line" id="video-modal__cross-line-1"><hr class="video-modal__cross-line" id="video-modal__cross-line-2"></div>`;
-
-    document.body.append(photoModal);
-
-    let photoModalCross = photoModal.querySelector('.video-modal__cross'),
-        photoModalImg = photoModal.querySelector('.photo__modal__photo');
-        photoModalCross.addEventListener('click', () => {
-        videoModal.remove();
-    });
-
-    photoModal.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-    });
-
-    photoModal.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (e.target != photoModalImg)
-            photoModal.remove();
-    });
-
-    let firstTouch = 0;
-    if (window.screen.width < 768) {
-        photoModalImg.addEventListener('touchstart', (event) => {
-            event.preventDefault();
-            firstTouch = event;
-        });
-
-        photoModalImg.addEventListener('touchmove', (event) => {
-            let transform = 
-            photoModalImg.style.transform = `translateY(-${firstTouch.touches[0].clientY - event.touches[0].clientY}px) scale(${1 - ((firstTouch.touches[0].clientY - event.touches[0].clientY) / 1000)})`;
-        });
-
-        photoModalImg.addEventListener('touchend', (event) => {
-            if (event.changedTouches[0].screenY < firstTouch.touches[0].screenY) {
-                photoModal.remove();
-            } else {
-                
-            }
-        });
-    }
-}
-
 // Ленивая загрузка
 [].forEach.call(document.querySelectorAll('img[data-src]'),    function(img) {
     img.setAttribute('src', img.getAttribute('data-src'));
     img.removeAttribute('data-src');
 });
+
+// Смена города
+try {
+    let cities = 
+    [
+        {
+            name: "Тюмень",
+            link: "#tmn"
+        },
+        {
+            name: "Екатеринбург",
+            link: "#ekb"
+        }
+    ];
+
+    let cityModal = new CityModal(cities);
+
+    document.querySelectorAll('[data-city]').forEach(cityBtn => {
+        cityBtn.addEventListener('click', () => {
+            cityModal.draw(document.querySelector('body'), 'beforeend');
+        });
+    });
+} catch(e) {
+    console.log(e);
+}
 
 // Карта
 try {
@@ -687,119 +667,189 @@ try {
 
 }
 
+function openPhotoModal(photo, parent) {
+    let photoModal = document.createElement('div');
+    photoModal.classList.add('photo__modal');
+    photoModal.innerHTML = `<img src="${photo.src}" class="photo__modal__photo" controls> <div class="video-modal__cross"><hr class="video-modal__cross-line" id="video-modal__cross-line-1"><hr class="video-modal__cross-line" id="video-modal__cross-line-2"></div>`;
+
+    document.body.append(photoModal);
+
+    let photoModalCross = photoModal.querySelector('.video-modal__cross'),
+        photoModalImg = photoModal.querySelector('.photo__modal__photo');
+        photoModalCross.addEventListener('click', () => {
+        videoModal.remove();
+    });
+
+    photoModal.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+    });
+
+    photoModal.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (e.target != photoModalImg)
+            photoModal.remove();
+    });
+
+    let firstTouch = 0;
+    if (window.screen.width < 768) {
+        photoModalImg.addEventListener('touchstart', (event) => {
+            event.preventDefault();
+            firstTouch = event;
+        });
+
+        photoModalImg.addEventListener('touchmove', (event) => {
+            let transform = 
+            photoModalImg.style.transform = `translateY(-${firstTouch.touches[0].clientY - event.touches[0].clientY}px) scale(${1 - ((firstTouch.touches[0].clientY - event.touches[0].clientY) / 1000)})`;
+        });
+
+        photoModalImg.addEventListener('touchend', (event) => {
+            if (event.changedTouches[0].screenY < firstTouch.touches[0].screenY) {
+                photoModal.remove();
+            } else {
+                
+            }
+        });
+    }
+}
+
+
 // Галлерея
-try {
-    const gallerySlider = document.querySelector('.gallery__slider'),
-          gallerySlideNext = document.querySelector('#gallery__slider__arrow-right'),
-          gallerySlidePrev = document.querySelector('#gallery__slider__arrow-left'),
-          gallerySlideCurrentText = document.querySelector('#gallery__current'),
-          gallerySlideCountText = document.querySelector('#gallery__count'),
-          gallerySlideMain = document.querySelector('.gallery__offer');
+// try {
+//     const gallerySlider = document.querySelector('.gallery__slider'),
+//           gallerySlideNext = document.querySelector('#gallery__slider__arrow-right'),
+//           gallerySlidePrev = document.querySelector('#gallery__slider__arrow-left'),
+//           gallerySlideCurrentText = document.querySelector('#gallery__current'),
+//           gallerySlideCountText = document.querySelector('#gallery__count'),
+//           gallerySlideMain = document.querySelector('.gallery__offer');
 
-    let gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
+//     let gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
 
-    let gallerySlideCurrent = 0,
-        gallerySlideCount = gallerySlider.querySelectorAll('.gallery__slider__item').length,
-        gallerySlideWidth = (parseInt(window.getComputedStyle(gallerySlide[0]).width) + parseInt(window.getComputedStyle(gallerySlide[0]).marginRight));
+//     let gallerySlideCurrent = 0,
+//         gallerySlideCount = gallerySlider.querySelectorAll('.gallery__slider__item').length,
+//         gallerySlideWidth = (parseInt(window.getComputedStyle(gallerySlide[0]).width) + parseInt(window.getComputedStyle(gallerySlide[0]).marginRight));
 
-    gallerySlide.forEach(item => {
-        let clone = item.cloneNode(true);
-        if (clone.classList.contains('gallery__slider__item-active')) clone.classList.remove('gallery__slider__item-active');
-        gallerySlider.append(clone);
-    });
+//     gallerySlide.forEach(item => {
+//         let clone = item.cloneNode(true);
+//         if (clone.classList.contains('gallery__slider__item-active')) clone.classList.remove('gallery__slider__item-active');
+//         gallerySlider.append(clone);
+//     });
 
-    gallerySlideCountText.innerHTML = gallerySlideCount;
-    gallerySlideCurrentText.innerHTML = gallerySlideCurrent + 1;
+//     gallerySlideCountText.innerHTML = gallerySlideCount;
+//     gallerySlideCurrentText.innerHTML = gallerySlideCurrent + 1;
 
-    gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
-    gallerySlide.forEach(item => {
-        item.addEventListener('click', () => {
-            openPhotoModal(item.querySelector('img'));
-        });
-    });
+//     gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
+//     gallerySlide.forEach(item => {
+//         item.addEventListener('click', () => {
+//             openPhotoModal(item.querySelector('img'));
+//         });
+//     });
 
-    const gallerySwitchNext = () => {
-        gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
-        gallerySlideCurrent++;
-        if (gallerySlideCurrent >= gallerySlideCount) {
-            setTimeout(function() {
-                gallerySlideCurrent = 0;
-                gallerySlide.forEach(item => {
-                    item.style.transitionDuration = '0ms';
-                    item.style.transform = `translateX(0px)`;
-                    gallerySlide.forEach(item => {
-                        item.classList.remove('gallery__slider__item-active');
-                    });
-                    gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
-                });
-            }, 400);
-        }
-        gallerySlide.forEach(item => {
-            item.style.transitionDuration = '400ms';
-            item.style.transform = `translateX(-${gallerySlideWidth * gallerySlideCurrent}px)`;
-        });
+//     const gallerySwitchNext = () => {
+//         gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
+//         gallerySlideCurrent++;
+//         if (gallerySlideCurrent >= gallerySlideCount) {
+//             setTimeout(function() {
+//                 gallerySlideCurrent = 0;
+//                 gallerySlide.forEach(item => {
+//                     item.style.transitionDuration = '0ms';
+//                     item.style.transform = `translateX(0px)`;
+//                     gallerySlide.forEach(item => {
+//                         item.classList.remove('gallery__slider__item-active');
+//                     });
+//                     gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
+//                 });
+//             }, 400);
+//         }
+//         gallerySlide.forEach(item => {
+//             item.style.transitionDuration = '400ms';
+//             item.style.transform = `translateX(-${gallerySlideWidth * gallerySlideCurrent}px)`;
+//         });
         
-        gallerySlide.forEach(item => {
-            item.classList.remove('gallery__slider__item-active');
-        });
-        gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
-        gallerySlideNext.removeEventListener('click', gallerySwitchNext);
-        setTimeout(() => {
-            gallerySlideNext.addEventListener('click', gallerySwitchNext);
-            gallerySlideCurrentText.innerHTML = gallerySlideCurrent + 1;
-            gallerySlide.forEach(item => {
-                if (item.classList.contains('gallery__slider__item-active')) {
-                    gallerySlideMain.querySelector('[data-clinic]').innerHTML = item.querySelector('[data-clinic]').innerHTML;
-                    gallerySlideMain.querySelector('[data-room]').innerHTML = item.querySelector('[data-room]').innerHTML;
-                }
-            });
-        }, 400);
-    }
+//         gallerySlide.forEach(item => {
+//             item.classList.remove('gallery__slider__item-active');
+//         });
+//         gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
+//         gallerySlideNext.removeEventListener('click', gallerySwitchNext);
+//         setTimeout(() => {
+//             gallerySlideNext.addEventListener('click', gallerySwitchNext);
+//             gallerySlideCurrentText.innerHTML = gallerySlideCurrent + 1;
+//             gallerySlide.forEach(item => {
+//                 if (item.classList.contains('gallery__slider__item-active')) {
+//                     gallerySlideMain.querySelector('[data-clinic]').innerHTML = item.querySelector('[data-clinic]').innerHTML;
+//                     gallerySlideMain.querySelector('[data-room]').innerHTML = item.querySelector('[data-room]').innerHTML;
+//                 }
+//             });
+//         }, 400);
+//     }
 
-    const gallerySwitchPrev = () => {
-        gallerySlideCurrent--;
-        gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
-        if (gallerySlideCurrent < 0) {
-            gallerySlideCurrent = gallerySlideCount;
-            gallerySlide.forEach(item => {
-                item.style.transitionDuration = '0ms';
-                item.style.transform = `translateX(-${gallerySlideCurrent * gallerySlideWidth}px)`;
-                gallerySlide.forEach(item => {
-                    item.classList.remove('gallery__slider__item-active');
-                });
-                gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
-            });
-            gallerySlideCurrent--;
-        }
-        gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
-        setTimeout(() => {
-            gallerySlide.forEach(item => {
-                item.style.transitionDuration = '400ms';
-                item.style.transform = `translateX(-${gallerySlideWidth * gallerySlideCurrent}px)`;
-            });
-            gallerySlide.forEach(item => {
-                item.classList.remove('gallery__slider__item-active');
-            });
-            gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
-            gallerySlidePrev.removeEventListener('click', gallerySwitchPrev);
-        }, 10);
-        setTimeout(() => {
-            gallerySlidePrev.addEventListener('click', gallerySwitchPrev);
-            gallerySlideCurrentText.innerHTML = gallerySlideCurrent + 1;
-            gallerySlide.forEach(item => {
-                if (item.classList.contains('gallery__slider__item-active')) {
-                    gallerySlideMain.querySelector('[data-clinic]').innerHTML = item.querySelector('[data-clinic]').innerHTML;
-                    gallerySlideMain.querySelector('[data-room]').innerHTML = item.querySelector('[data-room]').innerHTML;
-                }
-            });
-        }, 395);
-    }
+//     const gallerySwitchPrev = () => {
+//         gallerySlideCurrent--;
+//         gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
+//         if (gallerySlideCurrent < 0) {
+//             gallerySlideCurrent = gallerySlideCount;
+//             gallerySlide.forEach(item => {
+//                 item.style.transitionDuration = '0ms';
+//                 item.style.transform = `translateX(-${gallerySlideCurrent * gallerySlideWidth}px)`;
+//                 gallerySlide.forEach(item => {
+//                     item.classList.remove('gallery__slider__item-active');
+//                 });
+//                 gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
+//             });
+//             gallerySlideCurrent--;
+//         }
+//         gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
+//         setTimeout(() => {
+//             gallerySlide.forEach(item => {
+//                 item.style.transitionDuration = '400ms';
+//                 item.style.transform = `translateX(-${gallerySlideWidth * gallerySlideCurrent}px)`;
+//             });
+//             gallerySlide.forEach(item => {
+//                 item.classList.remove('gallery__slider__item-active');
+//             });
+//             gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
+//             gallerySlidePrev.removeEventListener('click', gallerySwitchPrev);
+//         }, 10);
+//         setTimeout(() => {
+//             gallerySlidePrev.addEventListener('click', gallerySwitchPrev);
+//             gallerySlideCurrentText.innerHTML = gallerySlideCurrent + 1;
+//             gallerySlide.forEach(item => {
+//                 if (item.classList.contains('gallery__slider__item-active')) {
+//                     gallerySlideMain.querySelector('[data-clinic]').innerHTML = item.querySelector('[data-clinic]').innerHTML;
+//                     gallerySlideMain.querySelector('[data-room]').innerHTML = item.querySelector('[data-room]').innerHTML;
+//                 }
+//             });
+//         }, 395);
+//     }
     
-    gallerySlideNext.addEventListener('click', gallerySwitchNext);
+//     gallerySlideNext.addEventListener('click', gallerySwitchNext);
 
-    gallerySlidePrev.addEventListener('click', gallerySwitchPrev);
+//     gallerySlidePrev.addEventListener('click', gallerySwitchPrev);
+// } catch(e) {
+//     console.log('Unknown gallery');
+// }
+
+function openMediaModal(parent) {
+    let photoModal = document.createElement('div');
+    photoModal.classList.add('photo__modal');
+    photoModal.innerHTML = `<img src="${photo.src}" class="photo__modal__photo" controls> <div class="video-modal__cross"><hr class="video-modal__cross-line" id="video-modal__cross-line-1"><hr class="video-modal__cross-line" id="video-modal__cross-line-2"></div>`;
+
+    const imgs = parent.querySelectorAll('img');
+
+    imgs.forEach((img, index) => {
+        img.addEventListener('click', (e) => {
+            e.preventDefault();
+
+        });
+    });
+}
+
+// Галерея
+try {
+    const gallerySlider = document.querySelector('.gallery__slider');
+
+    
 } catch(e) {
-    console.log('Unknown gallery');
+    console.log(e);
 }
 
 // Акции

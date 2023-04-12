@@ -1,5 +1,5 @@
 /* Основные стили */
-p, div, figure, figcaption, span, h1, h2, h3, h4, h5, a, section, body, hr, header, main, footer, form, input, button, svg, img, pre, textarea, ul, ol, li {
+p, div, figure, figcaption, span, h1, h2, h3, h4, h5, a, section, body, hr, header, main, footer, form, input, button, svg, img, video, pre, textarea, ul, ol, li {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -49,7 +49,7 @@ p, a {
 main {
     overflow: hidden;
     position: relative;
-    padding-top: 150px;
+    padding-top: 140px;
 }
 
 input {
@@ -80,6 +80,16 @@ ul.dashed > li::before {
     content: '-';
     margin-right: 4px;
     text-indent: -2px;
+}
+
+.bg-dark {
+    background-color: rgba(0,0,0,.3);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
 }
 
 .map {
@@ -419,7 +429,8 @@ ul.dashed > li::before {
 
 .video-modal__cross {
     position: relative;
-    top: 12%;
+    top: 165px;
+    left: 50px;
     align-self: start;
     -webkit-user-select: none;
     user-select: none;
@@ -445,7 +456,6 @@ ul.dashed > li::before {
 .photo__modal {
     position: fixed;
     display: flex;
-    align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
@@ -456,8 +466,9 @@ ul.dashed > li::before {
 }
 
 .photo__modal__photo {
-    height: 70%;
-    border-radius: 25px
+    max-height: 80%;
+    border-radius: 25px;
+    margin-top: 150px;
 }
 
 /* Шапка */
@@ -516,8 +527,22 @@ ul.dashed > li::before {
 
 .header__location__list {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.header__location__list:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    margin-top: 5px;
+    margin-left: 8px;
+    background-image: url('../icon/arrowRight.svg');
+    background-repeat: no-repeat;   
+    background-size: contain;
+    transform: rotate(90deg);
 }
 
 .header__location__item {
@@ -2001,7 +2026,10 @@ ul.dashed > li::before {
 
 /* Галлерея */
 .gallery {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 5px 17px 3px rgba(0, 0, 0, 0.2);
     padding-bottom: 450px;
+    margin-bottom: 20px;
 }
 
 .gallery__offer {
@@ -2254,7 +2282,7 @@ ul.dashed > li::before {
 /* Карта врача */
 /* Первый экран */
 .doctor-card__first-screen {
-    padding-bottom: 160px;
+    padding-bottom: 140px;
     padding-top: 0;
 }
 
@@ -2356,13 +2384,13 @@ ul.dashed > li::before {
 }
 
 .doctor-card__first-screen__slider__item {
-    width: 300px;
+    height: 200px;
     margin-right: 20px;
 }
 
 .doctor-card__first-screen__slider__item img {
     border-radius: 10px;
-    width: 100%;
+    height: 100%;
     cursor: pointer;
 }
 
@@ -2459,57 +2487,6 @@ ul.dashed > li::before {
     margin-top: 50px;
     font-size: 18px;
     text-align: center;
-}
-
-/* Сертификаты */
-.doctor-card__certificates {
-    padding-bottom: 0;
-    padding-top: 60px;
-}
-
-.doctor-card__certificates__title {
-    margin: auto;
-    width: -moz-fit-content;
-    width: fit-content;
-    margin-bottom: 40px;
-}
-
-.doctor-card__certificates__desc {
-    margin: auto;
-    text-align: center;
-    width: 900px;
-    margin-bottom: 60px;
-}
-
-.doctor-card__certificates__slider-block {
-    width: 100vw;
-    background-color: #08ba80;
-    padding: 40px;
-}
-
-.doctor-card__certificates__slider {
-    width: 800px;
-    height: 450px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.doctor-card__certificates__slider__img {
-    height: 100%;
-    -webkit-user-select: none;
-    user-select: none;
-    transition-duration: 400ms;
-}
-
-.doctor-card__certificates__slider__arrow {
-    height: 50px;
-    cursor: pointer;
-}
-
-.doctor-card__certificates__list {
-    display: none;
 }
 
 /* Форма обратной связи */
@@ -3404,19 +3381,330 @@ ul.dashed > li::before {
     color: #8f8f8f;
 }
 
-/* Калькулятор */
-.calculator {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
+/* Страница Услуга */
+.option__first-screen {
+    background-image: url('../img/options/optionCard/bg.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 5px 17px 3px rgba(0, 0, 0, 0.2);
+}
+
+.option__first-screen__offer {
+    width: 600px;
+}
+
+.option__first-screen__offer__subtitle {
+    font-size: 24px;
+    font-weight: 599;
+}
+
+.option__first-screen__offer__title {
+    background-image: linear-gradient(256deg, rgba(5,188,129,1) 0%, rgba(57,156,108,1) 27%, rgba(5,188,129,1) 100%);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.option__first-screen__offer__desc {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.option__first-screen__offer__desc-list {
+    margin-bottom: 40px;
+}
+
+.option__first-screen__offer__btn {
+    padding: 20px 30px;
+}
+
+.options__first-screen__img {
+    width: 50%;
+}
+
+.option__info {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.option__info .wrap img {
+    width: 30%;
+}
+
+.option__info .wrap {
+    margin-bottom: 80px;
+}
+
+.option__info__offer {
+    width: 50%;
+}
+
+.option__info__offer__title {
+    margin-bottom: 20px;
+    background-image: linear-gradient(256deg, rgba(5,188,129,1) 0%, rgba(57,156,108,1) 27%, rgba(5,188,129,1) 100%);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.option__info__offer__desc {
+    line-height: 160%;
+}
+
+/* О нас */
+.about-page__first-screen {
+    position: relative;
+    padding-top: 250px;
+    padding-bottom: 250px;
+    overflow-y: hidden;
+    box-shadow: 0px 5px 17px 3px rgba(0, 0, 0, 0.2);
+}
+
+.about-page__first-screen .content{
+    position: static;
+}
+
+.about-page__first-screen__bg-video {
+    position: absolute;
+    width: 100%;
     left: 0;
     top: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 100000000;
+    z-index: -1;
+}
+
+.about-page__first-screen__offer {
+    width: 550px;
+    position: relative;
+    z-index: 100;
+}
+
+.about-page__first-screen__title {
+    background-image: linear-gradient(256deg, rgba(5,188,129,1) 0%, rgba(57,156,108,1) 27%, rgba(5,188,129,1) 100%);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+
+.about-page__first-screen__desc {
+    color: #fff;
+    font-weight: 400;
+    line-height: 24px;
+    font-size: 18px;
+}
+
+.about-page__licenses__offer {
+    margin-right: 50px;
+    width: 50%;
+}
+
+.about-page__licenses__offer__title {
+    background-image: linear-gradient(256deg, rgba(5,188,129,1) 0%, rgba(57,156,108,1) 27%, rgba(5,188,129,1) 100%);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    margin-bottom: 30px;
+}
+
+.about-page__licenses__offer__desc {
+    line-height: 160%;
+}
+
+.about-page__licenses__btn {
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 15px;
 }
+
+.about-page__licenses__btn.btn1 {
+    margin-right: 30px;
+}
+
+.about-page__licenses__btn.btn-second1 {
+    margin-left: 30px;
+}
+
+.about-page__achivments {
+    margin-top: 60px;
+}
+
+.about-page .achievement1 {
+    width: 31%;
+    padding: 40px 20px 30px 20px;
+}
+
+.about-page .achievement1 img {
+    height: 70px;
+}
+
+.about-page .achievement1__desc {
+    font-size: 12px;
+    line-height: 160%;
+}
+
+.about-page__licenses__lists-wrap {
+    justify-content: center;
+}
+
+.about-page__licenses__list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
+    padding: 30px 25px;
+    border-radius: 10px;
+    border: 1px solid #09b97f;
+    height: 350px;
+    margin-top: 50px;
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+.about-page__licenses__list a {
+    text-decoration: none;
+    color: #09b97f;
+    font-weight: 500;
+}
+
+/* Модальное окно */
+.modal {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,.4);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+    scroll-padding-top: 100px;
+}
+
+.modal-close {
+    width: 25px;
+    height: 25px;
+    position: fixed;
+    right: 15%;
+    top: 10%;
+    cursor: pointer;
+}
+
+.modal-close hr {
+    width: 100%;
+    height: 2px;
+    border: none;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+.modal-close hr:first-child {
+    transform: rotate(45deg) translateX(1px);
+}
+
+.modal-close hr:last-child {
+    transform: rotate(-45deg) translateX(2px);
+}
+
+.modal__block {
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 600px;
+}
+
+.modal__title {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.modal__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal__input-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.modal__input-block span {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: rgba(0,0,0,.55);
+}
+
+.modal__agreement {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.modal__agreement, .modal__agreement a {
+    font-size: 12px;
+}
+
+.modal__agreement a {
+    color: #09b97f;
+    text-decoration: none;
+}
+
+.modal__btn {
+    padding: 15px;
+}
+
+.modal__offer {
+    margin-bottom: 20px;
+}
+
+.modal__offer__block {
+    margin-bottom: 20px;
+}
+
+.modal__offer__title {
+    font-size: 16px;
+}
+
+.modal__offer__list {
+    margin-top: 6px;
+}
+
+.modal__offer__list > li {
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.modal-vacancy__title {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.modal__cities-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.modal__cities-list a {
+    text-decoration: none;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.modal__cities-list a:hover {
+    color: #0eb67d;
+}
+
+/* Калькулятор */
 
 .calculator-modal {
     background-color: #fff;
@@ -3435,7 +3723,6 @@ ul.dashed > li::before {
     width: 70%;
     height: 100%;
     background-color: #fff;
-    padding: 40px;
     padding-right: 0;
 }
 
@@ -3453,6 +3740,7 @@ ul.dashed > li::before {
     font-size: 30px;
     font-weight: 600;
     margin-bottom: 40px;
+    text-align: left;
 }
 
 .calculator__main__list {
@@ -3698,194 +3986,6 @@ ul.dashed > li::before {
 
 .calculator__sidebar__form__check-block span, .calculator__sidebar__form__check-block a {
     font-size: 14px;
-}
-
-/* Страница Услуга */
-.option__first-screen {
-    background-image: url('../img/options/optionCard/bg.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0px 5px 17px 3px rgba(0, 0, 0, 0.2);
-}
-
-.option__first-screen__offer {
-    width: 600px;
-}
-
-.option__first-screen__offer__subtitle {
-    font-size: 24px;
-    font-weight: 599;
-}
-
-.option__first-screen__offer__title {
-    background-image: linear-gradient(256deg, rgba(5,188,129,1) 0%, rgba(57,156,108,1) 27%, rgba(5,188,129,1) 100%);
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.option__first-screen__offer__desc {
-    font-size: 24px;
-    margin-bottom: 15px;
-}
-
-.option__first-screen__offer__desc-list {
-    margin-bottom: 40px;
-}
-
-.option__first-screen__offer__btn {
-    padding: 20px 30px;
-}
-
-.options__first-screen__img {
-    width: 50%;
-}
-
-.option__info {
-    padding-top: 40px;
-    padding-bottom: 40px;
-}
-
-.option__info .wrap img {
-    width: 30%;
-}
-
-.option__info .wrap {
-    margin-bottom: 80px;
-}
-
-.option__info__offer {
-    width: 50%;
-}
-
-.option__info__offer__title {
-    margin-bottom: 20px;
-    background-image: linear-gradient(256deg, rgba(5,188,129,1) 0%, rgba(57,156,108,1) 27%, rgba(5,188,129,1) 100%);
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-}
-
-.option__info__offer__desc {
-    line-height: 160%;
-}
-
-/* Модальное окно */
-.modal {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,.4);
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1000000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-y: scroll;
-    scroll-padding-top: 100px;
-}
-
-.modal-close {
-    width: 25px;
-    height: 25px;
-    position: fixed;
-    right: 15%;
-    top: 10%;
-    cursor: pointer;
-}
-
-.modal-close hr {
-    width: 100%;
-    height: 2px;
-    border: none;
-    background-color: #fff;
-    border-radius: 2px;
-}
-
-.modal-close hr:first-child {
-    transform: rotate(45deg) translateX(1px);
-}
-
-.modal-close hr:last-child {
-    transform: rotate(-45deg) translateX(2px);
-}
-
-.modal__block {
-    padding: 40px;
-    background-color: #fff;
-    border-radius: 10px;
-    width: 600px;
-}
-
-.modal__title {
-    margin-bottom: 40px;
-    text-align: center;
-}
-
-.modal__form {
-    display: flex;
-    flex-direction: column;
-}
-
-.modal__input-block {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 30px;
-}
-
-.modal__input-block span {
-    font-weight: 700;
-    font-size: 16px;
-    margin-bottom: 8px;
-    color: rgba(0,0,0,.55);
-}
-
-.modal__agreement {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.modal__agreement, .modal__agreement a {
-    font-size: 12px;
-}
-
-.modal__agreement a {
-    color: #09b97f;
-    text-decoration: none;
-}
-
-.modal__btn {
-    padding: 15px;
-}
-
-.modal__offer {
-    margin-bottom: 20px;
-}
-
-.modal__offer__block {
-    margin-bottom: 20px;
-}
-
-.modal__offer__title {
-    font-size: 16px;
-}
-
-.modal__offer__list {
-    margin-top: 6px;
-}
-
-.modal__offer__list > li {
-    font-size: 14px;
-    margin-top: 2px;
-}
-
-.modal-vacancy__title {
-    font-size: 24px;
-    margin-bottom: 30px;
 }
 
 @media (max-width: 1400px) {
