@@ -523,6 +523,8 @@ ul.dashed > li::before {
 .header__location__img {
     height: 39px;
     margin-right: 10px;
+    position: relative;
+    z-index: 1001;
 }
 
 .header__location__list {
@@ -531,6 +533,9 @@ ul.dashed > li::before {
     font-size: 16px;
     margin-left: 10px;
     cursor: pointer;
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .header__location__list:after {
@@ -543,6 +548,36 @@ ul.dashed > li::before {
     background-repeat: no-repeat;   
     background-size: contain;
     transform: rotate(90deg);
+}
+
+.header__location__select {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 150px;
+    position: absolute;
+    top: 40px;
+    left: -40px;
+    z-index: 1000;
+    padding: 20px 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 3px 4px 17px 3px rgb(0 0 0 / 20%);
+}
+
+.header__location__select a {
+    text-decoration: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.header__location__select a:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.header__location__select a:hover {
+    color: #0eb67d;
 }
 
 .header__location__item {

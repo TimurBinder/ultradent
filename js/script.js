@@ -51,24 +51,25 @@ function openVideoModal(video) {
 
 // Смена города
 try {
-    let cities = 
-    [
-        {
-            name: "Тюмень",
-            link: "#tmn"
-        },
-        {
-            name: "Екатеринбург",
-            link: "#ekb"
+    const headerLocation = document.querySelector('.header__location__list');
+    const headerLocationSelect = headerLocation.querySelector('.header__location__select');
+    let headerLocationVisible = false;
+
+    headerLocation.addEventListener('click', (e) => {
+        if (headerLocationVisible) {
+            headerLocationSelect.style.display = 'none';
+            headerLocationVisible = false;
+        } else {
+            headerLocationSelect.style.display = 'flex';
+            headerLocationVisible = true;
         }
-    ];
+    });
 
-    let cityModal = new CityModal(cities);
-
-    document.querySelectorAll('[data-city]').forEach(cityBtn => {
-        cityBtn.addEventListener('click', () => {
-            cityModal.draw(document.querySelector('body'), 'beforeend');
-        });
+    document.addEventListener('click', (e) => {
+        if (e.target.parentElement != headerLocation && headerLocationVisible) {
+            headerLocationSelect.style.display = 'none';
+            headerLocationVisible = false;
+        }
     });
 } catch(e) {
     console.log(e);
@@ -128,6 +129,7 @@ try {
             headerSearchVisibility = true;
         }
     });
+    
 } catch(e) {
     console.error('Unknown search');
 }

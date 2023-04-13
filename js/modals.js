@@ -40,34 +40,6 @@ class Modal {
     }
 }
 
-class CityModal extends Modal {
-    title = createElementByHTML('h2', 'modal__title', 'Выберите город');
-    citiesList;
-
-    constructor(citiesArray) {
-        super();
-        this.createModal(citiesArray);
-    }
-
-    createModal(citiesArray) {
-        super.createModal();
-        this.citiesList = this.#createCitiesList(citiesArray);
-        this.modal.insertAdjacentElement('beforeend', this.title);
-        this.modal.insertAdjacentElement('beforeend', this.citiesList);
-    }
-
-    #createCitiesList(citiesArray) {
-        let list = createElementByHTML('div', 'modal__cities-list', '');
-        let citiesElements = [];
-        citiesArray.forEach((cityElem, index) => {
-            citiesElements.push(createElementByHTML('a', '', cityElem.name));
-            citiesElements[index].href  = cityElem.link;
-            list.insertAdjacentElement('beforeend', citiesElements[index]);
-        });
-        return list;
-    }
-}
-
 class CallModal extends Modal {
     form = this.#createForm();
     title = createElementByHTML('h2', 'modal__title', 'Обратный звонок');
