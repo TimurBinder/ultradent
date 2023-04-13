@@ -3705,7 +3705,6 @@ ul.dashed > li::before {
 }
 
 /* Калькулятор */
-
 .calculator-modal {
     background-color: #fff;
     z-index: 100000;
@@ -3714,6 +3713,7 @@ ul.dashed > li::before {
     border-radius: 16px;
     display: flex;
     overflow: hidden;
+    padding: 0;
 }
 
 .calculator__main {
@@ -3723,6 +3723,7 @@ ul.dashed > li::before {
     width: 70%;
     height: 100%;
     background-color: #fff;
+    padding: 40px;
     padding-right: 0;
 }
 
@@ -3794,6 +3795,10 @@ ul.dashed > li::before {
     width: 10px;
     height: 10px;
     background-color: #09b97f;
+}
+
+.calculator__main__list__item__name {
+    width: 80%;
 }
 
 .calculator__main__btns-block {
