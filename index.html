@@ -27,14 +27,13 @@
             <p>Клиника, которой доверяют</p>
         </a>
         <nav class="burger-menu__nav">
-            <a href="#" class="burger-menu__nav__item">О нас</a>
-            <a href="#" class="burger-menu__nav__item">Специалисты</a>
-            <a href="#" class="burger-menu__nav__item">Контакты</a>
-            <a href="#" class="burger-menu__nav__item">Отзывы</a>
-            <a href="#" class="burger-menu__nav__item">Услуги</a>
-            <a href="#" class="burger-menu__nav__item">Прайс</a>
-            <a href="#" class="burger-menu__nav__item">Акции</a>
-            <a href="#" class="burger-menu__nav__item">Вакансии</a>
+            <a href="/about.html" class="burger-menu__nav__item">О нас</a>
+            <a href="/staff.html" class="burger-menu__nav__item">Специалисты</a>
+            <a href="/contacts.html" class="burger-menu__nav__item">Контакты</a>
+            <a href="/reviews.html" class="burger-menu__nav__item">Отзывы</a>
+            <a href="/options.html" class="burger-menu__nav__item">Услуги</a>
+            <a href="/stocks.html" class="burger-menu__nav__item">Акции</a>
+            <a href="/vacancy.html" class="burger-menu__nav__item">Вакансии</a>
         </nav>
 
         <div class="burger-menu__info">
@@ -1473,7 +1472,7 @@
                 <div class="video-reviews__slider">
                         
                     <!-- Слайд -->
-                    <div class="video-reviews__slider__item video-reviews__slider__item-prev">
+                    <div data-slide class="video-reviews__slider__item video-reviews__slider__item-prev">
                         <video muted src="video/reviews/1.mp4"></video>
                         
                         <div class="video-reviews__slider__item__info">
@@ -1485,7 +1484,7 @@
                     </div>
     
                     <!-- Слайд -->
-                    <div class="video-reviews__slider__item video-reviews__slider__item-prev video-reviews__slider__item-visible">
+                    <div data-slide class="video-reviews__slider__item video-reviews__slider__item-prev video-reviews__slider__item-visible">
                         <video muted src="video/reviews/2.mp4"></video>
     
                         <div class="video-reviews__slider__item__info">
@@ -1497,7 +1496,7 @@
                     </div>
     
                     <!-- Слайд -->
-                    <div class="video-reviews__slider__item video-reviews__slider__item-active">
+                    <div data-slide class="video-reviews__slider__item video-reviews__slider__item-active">
                         <video muted src="video/reviews/3.mp4"></video>
     
                         <div class="video-reviews__slider__item__info">
@@ -1509,7 +1508,7 @@
                     </div>
     
                     <!-- Слайд -->
-                    <div class="video-reviews__slider__item video-reviews__slider__item-next video-reviews__slider__item-visible">
+                    <div data-slide class="video-reviews__slider__item video-reviews__slider__item-next video-reviews__slider__item-visible">
                         <video muted src="video/reviews/4.mp4"></video>
     
                         <div class="video-reviews__slider__item__info">
@@ -1521,7 +1520,7 @@
                     </div>
     
                     <!-- Слайд -->
-                    <div class="video-reviews__slider__item video-reviews__slider__item-next">
+                    <div data-slide class="video-reviews__slider__item video-reviews__slider__item-next">
                         <video muted src="video/reviews/5.mp4"></video>
     
                         <div class="video-reviews__slider__item__info">
@@ -1533,7 +1532,7 @@
                     </div>
     
                     <!-- Слайд -->
-                    <div class="video-reviews__slider__item video-reviews__slider__item-next">
+                    <div data-slide class="video-reviews__slider__item video-reviews__slider__item-next">
                         <video muted src="video/reviews/6.mp4"></video>
     
                         <div class="video-reviews__slider__item__info">
@@ -1545,7 +1544,7 @@
                     </div>
     
                     <!-- Слайд -->
-                    <div class="video-reviews__slider__item video-reviews__slider__item-next">
+                    <div data-slide class="video-reviews__slider__item video-reviews__slider__item-next">
                         <video muted src="video/reviews/7.mp4"></video>
     
                         <div class="video-reviews__slider__item__info">
@@ -1557,7 +1556,7 @@
                     </div>
     
                     <!-- Слайд -->
-                    <div class="video-reviews__slider__item video-reviews__slider__item-next">
+                    <div data-slide class="video-reviews__slider__item video-reviews__slider__item-next">
                         <video muted src="video/reviews/8.mp4"></video>
     
                         <div class="video-reviews__slider__item__info">
@@ -1569,7 +1568,7 @@
                     </div>
     
                     <!-- Слайд -->
-                    <div class="video-reviews__slider__item video-reviews__slider__item-next">
+                    <div data-slide class="video-reviews__slider__item video-reviews__slider__item-next">
                         <video muted src="video/reviews/9.mp4"></video>
     
                         <div class="video-reviews__slider__item__info">
@@ -1689,17 +1688,17 @@
             <div class="content">
 
                 <div class="gallery__slider__arrows">
-                    <svg class="gallery__slider__arrow" id="gallery__slider__arrow-left" viewBox="0 0 23 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg data-arrow-prev class="gallery__slider__arrow" id="gallery__slider__arrow-left" viewBox="0 0 23 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 37L2 19L22 1" stroke="#5B5B5B" stroke-width="2"/>
                     </svg>
-                    <svg class="gallery__slider__arrow" id="gallery__slider__arrow-right" viewBox="0 0 23 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg data-arrow-next class="gallery__slider__arrow" id="gallery__slider__arrow-right" viewBox="0 0 23 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 1L21 19L1 37" stroke="#5B5B5B" stroke-width="2"/>
                     </svg> 
                 </div>
-                <div class="gallery__slider">
+                <div data-infinity-slider class="gallery__slider">
                         
                     <!-- Слайд -->
-                    <div class="gallery__slider__item">
+                    <div data-slide class="gallery__slider__item">
                         <img data-src="img/banners/1.jpg" src="" alt="Фото">
                         <div class="gallery__slider__item__info">
                             <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
@@ -1708,7 +1707,16 @@
                     </div>
 
                     <!-- Слайд -->
-                    <div class="gallery__slider__item">
+                    <div data-slide class="gallery__slider__item">
+                        <img data-src="img/banners/2.jpg" src="" alt="">
+                        <div class="gallery__slider__item__info">
+                            <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
+                            <p data-room class="gallery__slider__item__info__review">«...на её лице была лучезарная улыбка, и она сказала: “Мама, в первый раз мне было так комфортно, не больно.”»--------2</p>
+                        </div>
+                    </div>
+
+                    <!-- Слайд -->
+                    <div data-slide class="gallery__slider__item ">
                         <img data-src="img/banners/1.jpg" src="" alt="">
                         <div class="gallery__slider__item__info">
                             <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
@@ -1717,7 +1725,7 @@
                     </div>
 
                     <!-- Слайд -->
-                    <div class="gallery__slider__item gallery__slider__item-active">
+                    <div data-slide class="gallery__slider__item">
                         <img data-src="img/banners/1.jpg" src="" alt="">
                         <div class="gallery__slider__item__info">
                             <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
@@ -1726,7 +1734,7 @@
                     </div>
 
                     <!-- Слайд -->
-                    <div class="gallery__slider__item">
+                    <div data-slide class="gallery__slider__item">
                         <img data-src="img/banners/1.jpg" src="" alt="">
                         <div class="gallery__slider__item__info">
                             <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
@@ -1735,7 +1743,7 @@
                     </div>
 
                     <!-- Слайд -->
-                    <div class="gallery__slider__item">
+                    <div data-slide class="gallery__slider__item">
                         <img data-src="img/banners/1.jpg" src="" alt="">
                         <div class="gallery__slider__item__info">
                             <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
@@ -1744,16 +1752,7 @@
                     </div>
 
                     <!-- Слайд -->
-                    <div class="gallery__slider__item">
-                        <img data-src="img/banners/1.jpg" src="" alt="">
-                        <div class="gallery__slider__item__info">
-                            <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>
-                            <p data-room class="gallery__slider__item__info__review">«...на её лице была лучезарная улыбка, и она сказала: “Мама, в первый раз мне было так комфортно, не больно.”»--------</p>
-                        </div>
-                    </div>
-
-                    <!-- Слайд -->
-                    <div class="gallery__slider__item">
+                    <div data-slide class="gallery__slider__item">
                         <img data-src="img/banners/1.jpg" src="" alt="Фото клиники">
                         <div class="gallery__slider__item__info">
                             <p data-clinic class="gallery__slider__item__info__clinic">Детская стоматология</p>

@@ -25,6 +25,131 @@ function switchSlide2(slide, slideWidth, current, count, step) {
     return current;
 }
 
+function infinitySlider(slider, nextBtn, prevBtn, startIndex, activeClass) {
+    let slides = slider.querySelectorAll('[data-slide]');
+    let slidesWidth = slides[0].getBoundingClientRect().width + parseInt(getComputedStyle(slides[0]).marginRight),
+        currentSlideIndex = startIndex;
+
+    let cloneSlides = [];
+    slides[currentSlideIndex].classList.add(activeClass);
+
+    for (let i = slides.length-1; i >= 0; i--) {
+        cloneSlides.push(slides[i].cloneNode(true));
+    }
+
+    cloneSlides.forEach(cloneSlide => {
+        slider.insertAdjacentElement('afterbegin', cloneSlide);
+    });
+    slides = slider.querySelectorAll('[data-slide]');
+
+    function cloneSlidesMove(position) {
+        let slide = (position == 'beforeend') ? slides[0] : slides[slides.length-1];
+        slider.insertAdjacentElement(position, slide);
+        slides = slider.querySelectorAll('[data-slide]');
+        slides.forEach(slideItem => {
+            slideItem.style.transitionDuration = '0ms';
+            slideItem.style.transform = "translateX(-" + (slidesWidth * currentSlideIndex) + "px)";
+        })
+    }
+
+    function switchSlides(step) {
+        currentSlideIndex += step;
+        slides.forEach(slide => {
+            slide.style.transitionDuration = '400ms';
+            slide.style.transform = "translateX(-" + (slidesWidth * currentSlideIndex) + "px)";
+            slide.classList.remove(activeClass);
+        });
+        slides[currentSlideIndex].classList.add(activeClass);
+    }
+
+    switchSlides(0);
+
+    const nextBtnClick = () => {
+        switchSlides(1);
+        nextBtn.removeEventListener('click', nextBtnClick);
+        setTimeout(() => {
+            currentSlideIndex--;
+            cloneSlidesMove('beforeend');
+            nextBtn.addEventListener('click', nextBtnClick);
+        }, 400);
+    };
+
+    const prevBtnClick = () => {
+        switchSlides(-1);
+        prevBtn.removeEventListener('click', prevBtnClick);
+        setTimeout(() => {
+            currentSlideIndex++;
+            cloneSlidesMove('afterbegin');
+            prevBtn.addEventListener('click', prevBtnClick);
+        }, 400);
+    }
+
+    nextBtn.addEventListener('click', nextBtnClick);
+    prevBtn.addEventListener('click', prevBtnClick);
+}
+
+function openMediaModal(parent, tagMedia) {
+    const imgs = parent.querySelectorAll(tagMedia);
+    let photoModal = document.createElement('div');
+    photoModal.classList.add('modal');
+    let imgElement = document.createElement(tagMedia);
+    imgElement.className = "photo__modal__photo";
+    imgElement.setAttribute('controls', true);
+    let cross = document.createElement('div');
+    cross.className = "video-modal__cross";
+    cross.innerHTML = `<hr class="video-modal__cross-line" id="video-modal__cross-line-1"><hr class="video-modal__cross-line" id="video-modal__cross-line-2">`;
+
+    let nextBtn = document.createElement('div');
+    let prevBtn = document.createElement('div');
+
+    let currentIndex;
+
+    nextBtn.className = "modal__arrow";
+    prevBtn.className = "modal__arrow";
+
+    prevBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="M9.125 21.1L.7 12.7q-.15-.15-.212-.325Q.425 12.2.425 12t.063-.375Q.55 11.45.7 11.3l8.425-8.425q.35-.35.875-.35t.9.375q.375.375.375.875t-.375.875L3.55 12l7.35 7.35q.35.35.35.862q0 .513-.375.888t-.875.375q-.5 0-.875-.375Z"></path></svg>`;
+    nextBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(180 12 12)"><path fill="#fff" d="M9.125 21.1L.7 12.7q-.15-.15-.212-.325Q.425 12.2.425 12t.063-.375Q.55 11.45.7 11.3l8.425-8.425q.35-.35.875-.35t.9.375q.375.375.375.875t-.375.875L3.55 12l7.35 7.35q.35.35.35.862q0 .513-.375.888t-.875.375q-.5 0-.875-.375Z"></path></g></svg>`;
+
+    nextBtn.style.marginLeft = "50px";
+    prevBtn.style.marginRight = "50px";
+
+    photoModal.insertAdjacentElement('beforeend', prevBtn);
+    photoModal.insertAdjacentElement('beforeend', imgElement);
+    photoModal.insertAdjacentElement('beforeend', nextBtn);
+    photoModal.insertAdjacentElement('beforeend', cross);
+
+    const closeModal = (e) => {
+        if (e.target == photoModal || e.target == cross) {
+            photoModal.remove();
+        }
+    }
+
+    imgs.forEach((img, index) => {
+        img.addEventListener('click', (e) => {
+            e.preventDefault();
+            photoModal.querySelector('.photo__modal__photo').src = img.src;
+            document.querySelector('body').insertAdjacentElement('beforeend', photoModal);
+            currentIndex = index;
+        });
+    });
+    photoModal.addEventListener('click', closeModal);
+    cross.addEventListener('click', () => photoModal.remove());
+
+    nextBtn.addEventListener('click', () => {
+        currentIndex++;
+        if (currentIndex >= imgs.length)
+            currentIndex = 0;
+        imgElement.src = imgs[currentIndex].src;
+    });
+
+    prevBtn.addEventListener('click', () => {
+        currentIndex--;
+        if (currentIndex < 0)
+            currentIndex = imgs.length - 1;
+        imgElement.src = imgs[currentIndex].src;
+    });
+}
+
 function openVideoModal(video) {
     let videoModal = document.createElement('div');
     videoModal.classList.add('video-modal');
@@ -298,6 +423,7 @@ try {
                 document.querySelector('.about-staff__main-card__img').style.transitionDuration = `300ms`;   
                 document.querySelector('.about-staff__main-card__img').style.height = `300px`;
             },4)
+            
         });
     });
 
@@ -329,6 +455,8 @@ try {
                 });
                 hideCard();
             }
+            aboutStaffSliderCurrent = 0;
+            aboutStaffSliderCurrent = switchSlide(aboutStaffCard, aboutStaffCardWidth, aboutStaffSliderCurrent, aboutStaffSliderCount, 0);
         });
     });
 
@@ -488,125 +616,66 @@ function switchOptions(index) {
     console.error('Unknown variable: options' + e);
 }
 
+
+
 // Видео-слайдер
 try {
-    const videoReviewsSlider = document.querySelector('.video-reviews__slider'),
-          videoReviewsSlideNext = document.querySelector('#video-reviews__slider__arrow-right'),
-          videoReviewsSlidePrev = document.querySelector('#video-reviews__slider__arrow-left'),
-          videoReviewsSlideCurrentText = document.querySelector('#video-reviews__current'),
-          videoReviewsSlideCountText = document.querySelector('#video-reviews__count'),
-          videoReviewsSlideMain = document.querySelector('.video-reviews__offer');
+    const videoSlider = document.querySelector('.video-reviews__slider');
+    const nextBtn = document.querySelector('#video-reviews__slider__arrow-right');
+    const prevBtn = document.querySelector('#video-reviews__slider__arrow-left');
+    let videoStartIndex = 6;
+    
+    if (document.documentElement.clientWidth > 768) {
+        let currentSlideIndex = 1;
+        const videoOffer = document.querySelector('.video-reviews__offer');
+        let sliderCount = videoSlider.querySelectorAll('[data-slide]').length;
+        document.querySelector('#video-reviews__count').textContent = sliderCount;
+        document.querySelector('#video-reviews__current').textContent = currentSlideIndex;
 
-    let videoReviewsSlide = videoReviewsSlider.querySelectorAll('.video-reviews__slider__item');
+        function switchInfo(step) {
+            let slides = videoSlider.querySelectorAll('[data-slide]');
+            videoOffer.querySelector('[data-img]').src = slides[videoStartIndex].querySelector('[data-img]').src;
+            videoOffer.querySelector('[data-name]').textContent = slides[videoStartIndex].querySelector('[data-name]').innerHTML;
+            videoOffer.querySelector('[data-clinic]').textContent = slides[videoStartIndex].querySelector('[data-clinic]').innerHTML;
+            videoOffer.querySelector('[data-review]').textContent = slides[videoStartIndex].querySelector('[data-review]').innerHTML;
 
-    let videoReviewsSlideCurrent = 0,
-        videoReviewsSlideCount = videoReviewsSlider.querySelectorAll('.video-reviews__slider__item').length,
-        videoReviewsSlideWidth = (parseInt(window.getComputedStyle(videoReviewsSlide[0]).width) + parseInt(window.getComputedStyle(videoReviewsSlide[0]).marginRight));
-    
-    if (window.screen.width > 768) {
-        videoReviewsSlide.forEach(item => {
-            let clone = item.cloneNode(true);
-            if (clone.classList.contains('video-reviews__slider__item-active')) clone.classList.remove('video-reviews__slider__item-active');
-            videoReviewsSlider.append(clone);
-        });
-    
-        videoReviewsSlideCountText.innerHTML = videoReviewsSlideCount;
-        videoReviewsSlideCurrentText.innerHTML = videoReviewsSlideCurrent + 1;
-        videoReviewsSlide = videoReviewsSlider.querySelectorAll('.video-reviews__slider__item');
-        videoReviewsSlide.forEach(item => {
-            item.addEventListener('click', () => {
-                openVideoModal(item.querySelector('video'));
-            });
-        });
-    
-        const videoReviewsSwitchNext = () => {
-            videoReviewsSlide = videoReviewsSlider.querySelectorAll('.video-reviews__slider__item');
-            videoReviewsSlideCurrent++;
-            if (videoReviewsSlideCurrent >= videoReviewsSlideCount) {
-                setTimeout(function() {
-                    videoReviewsSlideCurrent = 0;
-                    videoReviewsSlide.forEach(item => {
-                        item.style.transitionDuration = '0ms';
-                        item.style.transform = `translateX(0px)`;
-                        videoReviewsSlide.forEach(item => {
-                            item.classList.remove('video-reviews__slider__item-active');
-                        });
-                        videoReviewsSlide[videoReviewsSlideCurrent+2].classList.add('video-reviews__slider__item-active');
-                    });
-                }, 400);
-            }
-            videoReviewsSlide.forEach(item => {
-                item.style.transitionDuration = '400ms';
-                item.style.transform = `translateX(-${videoReviewsSlideWidth * videoReviewsSlideCurrent}px)`;
-            });
-            
-            videoReviewsSlide.forEach(item => {
-                item.classList.remove('video-reviews__slider__item-active');
-            });
-            videoReviewsSlide[videoReviewsSlideCurrent+2].classList.add('video-reviews__slider__item-active');
-            videoReviewsSlideNext.removeEventListener('click', videoReviewsSwitchNext);
-            setTimeout(() => {
-                videoReviewsSlideNext.addEventListener('click', videoReviewsSwitchNext);
-                videoReviewsSlideCurrentText.innerHTML = videoReviewsSlideCurrent + 1;
-                videoReviewsSlide.forEach(item => {
-                    if (item.classList.contains('video-reviews__slider__item-active')) {
-                        videoReviewsSlideMain.querySelector('[data-img]').src = item.querySelector('[data-img]').src;
-                        videoReviewsSlideMain.querySelector('[data-name]').innerHTML = item.querySelector('[data-name]').innerHTML;
-                        videoReviewsSlideMain.querySelector('[data-clinic]').innerHTML = item.querySelector('[data-clinic]').innerHTML;
-                        videoReviewsSlideMain.querySelector('[data-review]').innerHTML = item.querySelector('[data-review]').innerHTML;
-                    }
-                });
-            }, 400);
-            
+            currentSlideIndex += step;
+            if (currentSlideIndex <= 0)
+                currentSlideIndex = sliderCount;
+            else if (currentSlideIndex > sliderCount)
+                currentSlideIndex = 1;
+            document.querySelector('#video-reviews__current').textContent = currentSlideIndex;
         }
-    
-        const videoReviewsSwitchPrev = () => {
-            videoReviewsSlideCurrent--;
-            videoReviewsSlide = videoReviewsSlider.querySelectorAll('.video-reviews__slider__item');
-            if (videoReviewsSlideCurrent < 0) {
-                videoReviewsSlideCurrent = videoReviewsSlideCount;
-                videoReviewsSlide.forEach(item => {
-                    item.style.transitionDuration = '0ms';
-                    item.style.transform = `translateX(-${videoReviewsSlideCurrent * videoReviewsSlideWidth}px)`;
-                    videoReviewsSlide.forEach(item => {
-                        item.classList.remove('video-reviews__slider__item-active');
-                    });
-                    videoReviewsSlide[videoReviewsSlideCurrent+2].classList.add('video-reviews__slider__item-active');
-                });
-                videoReviewsSlideCurrent--;
-            }
-            videoReviewsSlide = videoReviewsSlider.querySelectorAll('.video-reviews__slider__item');
+
+        infinitySlider(videoSlider, nextBtn, prevBtn, videoStartIndex, 'video-reviews__slider__item-active');
+
+        const prevSwitchInfo = () => {
+            switchInfo(-1);
+            prevBtn.removeEventListener('click', prevSwitchInfo);
             setTimeout(() => {
-                videoReviewsSlide.forEach(item => {
-                    item.style.transitionDuration = '400ms';
-                    item.style.transform = `translateX(-${videoReviewsSlideWidth * videoReviewsSlideCurrent}px)`;
-                });
-                videoReviewsSlide.forEach(item => {
-                    item.classList.remove('video-reviews__slider__item-active');
-                });
-                videoReviewsSlide[videoReviewsSlideCurrent+2].classList.add('video-reviews__slider__item-active');
-                videoReviewsSlidePrev.removeEventListener('click', videoReviewsSwitchPrev);
-            }, 10);
-            setTimeout(() => {
-                videoReviewsSlidePrev.addEventListener('click', videoReviewsSwitchPrev);
-                videoReviewsSlideCurrentText.innerHTML = videoReviewsSlideCurrent + 1;
-                videoReviewsSlide.forEach(item => {
-                    if (item.classList.contains('video-reviews__slider__item-active')) {
-                        videoReviewsSlideMain.querySelector('[data-img]').src = item.querySelector('[data-img]').src;
-                        videoReviewsSlideMain.querySelector('[data-name]').innerHTML = item.querySelector('[data-name]').innerHTML;
-                        videoReviewsSlideMain.querySelector('[data-clinic]').innerHTML = item.querySelector('[data-clinic]').innerHTML;
-                        videoReviewsSlideMain.querySelector('[data-review]').innerHTML = item.querySelector('[data-review]').innerHTML;
-                    }
-                });
-            }, 395);
+                prevBtn.addEventListener('click', prevSwitchInfo);
+            }, 400);
         }
         
-        // videoReviewsSwitchPrev();
+        const nextSwitchInfo = () => {
+            switchInfo(1);
+            nextBtn.removeEventListener('click', nextSwitchInfo);
+            setTimeout(() => {
+                nextBtn.addEventListener('click', nextSwitchInfo);
+            }, 400);
+        }
+        
+        nextBtn.addEventListener('click', nextSwitchInfo);
+        prevBtn.addEventListener('click', prevSwitchInfo);
+        
+    }
+    const videoReviewsSlider = document.querySelector('.video-reviews__slider');
+        
+    openMediaModal(videoSlider, 'video');
+
+    let videoReviewsSlide = videoReviewsSlider.querySelectorAll('.video-reviews__slider__item');
     
-        videoReviewsSlideNext.addEventListener('click', videoReviewsSwitchNext);
-    
-        videoReviewsSlidePrev.addEventListener('click', videoReviewsSwitchPrev);
-    } else {
+    if (window.screen.width < 768) {
         let videoReviewsCardFirstTouch;
         let videoReviewsCardCurrent = 2;
         function videoReviewsCardSwitch (item, index) {
@@ -650,11 +719,11 @@ try {
                 }
             });
         });
-
+    
         videoReviewsSlider.addEventListener('touchstart', (event) => {
             videoReviewsCardFirstTouch = event;
         });
-
+    
         videoReviewsSlider.addEventListener('touchend', (event) => {
             if (event.changedTouches[0].clientX - videoReviewsCardFirstTouch.touches[0].clientX > 10 && videoReviewsCardCurrent > 0) {
                 videoReviewsCardCurrent--;
@@ -664,192 +733,103 @@ try {
             videoReviewsCardSwitch(videoReviewsSlide[videoReviewsCardCurrent], videoReviewsCardCurrent);
         });
     }
-
 } catch(e) {
-
+    console.log(e);
 }
 
-function openPhotoModal(photo, parent) {
-    let photoModal = document.createElement('div');
-    photoModal.classList.add('photo__modal');
-    photoModal.innerHTML = `<img src="${photo.src}" class="photo__modal__photo" controls> <div class="video-modal__cross"><hr class="video-modal__cross-line" id="video-modal__cross-line-1"><hr class="video-modal__cross-line" id="video-modal__cross-line-2"></div>`;
+// function openPhotoModal(photo, parent) {
+//     let photoModal = document.createElement('div');
+//     photoModal.classList.add('photo__modal');
+//     photoModal.innerHTML = `<img src="${photo.src}" class="photo__modal__photo" controls> <div class="video-modal__cross"><hr class="video-modal__cross-line" id="video-modal__cross-line-1"><hr class="video-modal__cross-line" id="video-modal__cross-line-2"></div>`;
 
-    document.body.append(photoModal);
+//     document.body.append(photoModal);
 
-    let photoModalCross = photoModal.querySelector('.video-modal__cross'),
-        photoModalImg = photoModal.querySelector('.photo__modal__photo');
-        photoModalCross.addEventListener('click', () => {
-        videoModal.remove();
-    });
+//     let photoModalCross = photoModal.querySelector('.video-modal__cross'),
+//         photoModalImg = photoModal.querySelector('.photo__modal__photo');
+//         photoModalCross.addEventListener('click', () => {
+//         videoModal.remove();
+//     });
 
-    photoModal.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-    });
+//     photoModal.addEventListener('touchstart', (e) => {
+//         e.preventDefault();
+//     });
 
-    photoModal.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (e.target != photoModalImg)
-            photoModal.remove();
-    });
+//     photoModal.addEventListener('click', (e) => {
+//         e.preventDefault();
+//         if (e.target != photoModalImg)
+//             photoModal.remove();
+//     });
 
-    let firstTouch = 0;
-    if (window.screen.width < 768) {
-        photoModalImg.addEventListener('touchstart', (event) => {
-            event.preventDefault();
-            firstTouch = event;
-        });
+//     let firstTouch = 0;
+//     if (window.screen.width < 768) {
+//         photoModalImg.addEventListener('touchstart', (event) => {
+//             event.preventDefault();
+//             firstTouch = event;
+//         });
 
-        photoModalImg.addEventListener('touchmove', (event) => {
-            let transform = 
-            photoModalImg.style.transform = `translateY(-${firstTouch.touches[0].clientY - event.touches[0].clientY}px) scale(${1 - ((firstTouch.touches[0].clientY - event.touches[0].clientY) / 1000)})`;
-        });
+//         photoModalImg.addEventListener('touchmove', (event) => {
+//             let transform = 
+//             photoModalImg.style.transform = `translateY(-${firstTouch.touches[0].clientY - event.touches[0].clientY}px) scale(${1 - ((firstTouch.touches[0].clientY - event.touches[0].clientY) / 1000)})`;
+//         });
 
-        photoModalImg.addEventListener('touchend', (event) => {
-            if (event.changedTouches[0].screenY < firstTouch.touches[0].screenY) {
-                photoModal.remove();
-            } else {
+//         photoModalImg.addEventListener('touchend', (event) => {
+//             if (event.changedTouches[0].screenY < firstTouch.touches[0].screenY) {
+//                 photoModal.remove();
+//             } else {
                 
-            }
-        });
-    }
-}
-
-
-// Галлерея
-// try {
-//     const gallerySlider = document.querySelector('.gallery__slider'),
-//           gallerySlideNext = document.querySelector('#gallery__slider__arrow-right'),
-//           gallerySlidePrev = document.querySelector('#gallery__slider__arrow-left'),
-//           gallerySlideCurrentText = document.querySelector('#gallery__current'),
-//           gallerySlideCountText = document.querySelector('#gallery__count'),
-//           gallerySlideMain = document.querySelector('.gallery__offer');
-
-//     let gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
-
-//     let gallerySlideCurrent = 0,
-//         gallerySlideCount = gallerySlider.querySelectorAll('.gallery__slider__item').length,
-//         gallerySlideWidth = (parseInt(window.getComputedStyle(gallerySlide[0]).width) + parseInt(window.getComputedStyle(gallerySlide[0]).marginRight));
-
-//     gallerySlide.forEach(item => {
-//         let clone = item.cloneNode(true);
-//         if (clone.classList.contains('gallery__slider__item-active')) clone.classList.remove('gallery__slider__item-active');
-//         gallerySlider.append(clone);
-//     });
-
-//     gallerySlideCountText.innerHTML = gallerySlideCount;
-//     gallerySlideCurrentText.innerHTML = gallerySlideCurrent + 1;
-
-//     gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
-//     gallerySlide.forEach(item => {
-//         item.addEventListener('click', () => {
-//             openPhotoModal(item.querySelector('img'));
+//             }
 //         });
-//     });
-
-//     const gallerySwitchNext = () => {
-//         gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
-//         gallerySlideCurrent++;
-//         if (gallerySlideCurrent >= gallerySlideCount) {
-//             setTimeout(function() {
-//                 gallerySlideCurrent = 0;
-//                 gallerySlide.forEach(item => {
-//                     item.style.transitionDuration = '0ms';
-//                     item.style.transform = `translateX(0px)`;
-//                     gallerySlide.forEach(item => {
-//                         item.classList.remove('gallery__slider__item-active');
-//                     });
-//                     gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
-//                 });
-//             }, 400);
-//         }
-//         gallerySlide.forEach(item => {
-//             item.style.transitionDuration = '400ms';
-//             item.style.transform = `translateX(-${gallerySlideWidth * gallerySlideCurrent}px)`;
-//         });
-        
-//         gallerySlide.forEach(item => {
-//             item.classList.remove('gallery__slider__item-active');
-//         });
-//         gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
-//         gallerySlideNext.removeEventListener('click', gallerySwitchNext);
-//         setTimeout(() => {
-//             gallerySlideNext.addEventListener('click', gallerySwitchNext);
-//             gallerySlideCurrentText.innerHTML = gallerySlideCurrent + 1;
-//             gallerySlide.forEach(item => {
-//                 if (item.classList.contains('gallery__slider__item-active')) {
-//                     gallerySlideMain.querySelector('[data-clinic]').innerHTML = item.querySelector('[data-clinic]').innerHTML;
-//                     gallerySlideMain.querySelector('[data-room]').innerHTML = item.querySelector('[data-room]').innerHTML;
-//                 }
-//             });
-//         }, 400);
 //     }
-
-//     const gallerySwitchPrev = () => {
-//         gallerySlideCurrent--;
-//         gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
-//         if (gallerySlideCurrent < 0) {
-//             gallerySlideCurrent = gallerySlideCount;
-//             gallerySlide.forEach(item => {
-//                 item.style.transitionDuration = '0ms';
-//                 item.style.transform = `translateX(-${gallerySlideCurrent * gallerySlideWidth}px)`;
-//                 gallerySlide.forEach(item => {
-//                     item.classList.remove('gallery__slider__item-active');
-//                 });
-//                 gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
-//             });
-//             gallerySlideCurrent--;
-//         }
-//         gallerySlide = gallerySlider.querySelectorAll('.gallery__slider__item');
-//         setTimeout(() => {
-//             gallerySlide.forEach(item => {
-//                 item.style.transitionDuration = '400ms';
-//                 item.style.transform = `translateX(-${gallerySlideWidth * gallerySlideCurrent}px)`;
-//             });
-//             gallerySlide.forEach(item => {
-//                 item.classList.remove('gallery__slider__item-active');
-//             });
-//             gallerySlide[gallerySlideCurrent+2].classList.add('gallery__slider__item-active');
-//             gallerySlidePrev.removeEventListener('click', gallerySwitchPrev);
-//         }, 10);
-//         setTimeout(() => {
-//             gallerySlidePrev.addEventListener('click', gallerySwitchPrev);
-//             gallerySlideCurrentText.innerHTML = gallerySlideCurrent + 1;
-//             gallerySlide.forEach(item => {
-//                 if (item.classList.contains('gallery__slider__item-active')) {
-//                     gallerySlideMain.querySelector('[data-clinic]').innerHTML = item.querySelector('[data-clinic]').innerHTML;
-//                     gallerySlideMain.querySelector('[data-room]').innerHTML = item.querySelector('[data-room]').innerHTML;
-//                 }
-//             });
-//         }, 395);
-//     }
-    
-//     gallerySlideNext.addEventListener('click', gallerySwitchNext);
-
-//     gallerySlidePrev.addEventListener('click', gallerySwitchPrev);
-// } catch(e) {
-//     console.log('Unknown gallery');
 // }
-
-function openMediaModal(parent) {
-    let photoModal = document.createElement('div');
-    photoModal.classList.add('photo__modal');
-    photoModal.innerHTML = `<img src="${photo.src}" class="photo__modal__photo" controls> <div class="video-modal__cross"><hr class="video-modal__cross-line" id="video-modal__cross-line-1"><hr class="video-modal__cross-line" id="video-modal__cross-line-2"></div>`;
-
-    const imgs = parent.querySelectorAll('img');
-
-    imgs.forEach((img, index) => {
-        img.addEventListener('click', (e) => {
-            e.preventDefault();
-
-        });
-    });
-}
 
 // Галерея
 try {
-    const gallerySlider = document.querySelector('.gallery__slider');
+    const gallerySlider = document.querySelector('[data-infinity-slider]');
+    const galleryOffer = document.querySelector('.gallery__offer');
+    if (document.documentElement.clientWidth > 768) {
+        const galleryNext = document.querySelector('#gallery__slider__arrow-right'),
+              galleryPrev = document.querySelector('#gallery__slider__arrow-left');
+        let gallerySliderStart = 4;
+        let currentSlideIndex = 1;
+        let sliderCount = gallerySlider.querySelectorAll('.gallery__slider__item').length;
+        galleryOffer.querySelector('#gallery__count').textContent = sliderCount;
+        galleryOffer.querySelector('#gallery__current').textContent = currentSlideIndex;
+        function switchInfo(step) {
+            let slides = gallerySlider.querySelectorAll('.gallery__slider__item');
+            galleryOffer.querySelector('[data-clinic]').textContent = slides[gallerySliderStart].querySelector('[data-clinic]').innerHTML;
+            galleryOffer.querySelector('[data-room]').textContent = slides[gallerySliderStart].querySelector('[data-room]').innerHTML;
 
-    
+            currentSlideIndex += step;
+            if (currentSlideIndex <= 0)
+                currentSlideIndex = sliderCount;
+            else if (currentSlideIndex > sliderCount)
+                currentSlideIndex = 1;
+            galleryOffer.querySelector('#gallery__current').textContent = currentSlideIndex;
+        }
+
+        infinitySlider(gallerySlider, galleryNext, galleryPrev, gallerySliderStart, 'gallery__slider__item-active');
+
+        const prevSwitchInfo = () => {
+            switchInfo(-1);
+            galleryPrev.removeEventListener('click', prevSwitchInfo);
+            setTimeout(() => {
+                galleryPrev.addEventListener('click', prevSwitchInfo);
+            }, 400);
+        }
+
+        const nextSwitchInfo = () => {
+            switchInfo(1);
+            galleryNext.removeEventListener('click', nextSwitchInfo);
+            setTimeout(() => {
+                galleryNext.addEventListener('click', nextSwitchInfo);
+            }, 400);
+        }
+
+        galleryNext.addEventListener('click', nextSwitchInfo);
+        galleryPrev.addEventListener('click', prevSwitchInfo);
+    }
+
+    openMediaModal(gallerySlider, 'img');
 } catch(e) {
     console.log(e);
 }
@@ -1133,3 +1113,50 @@ try {
 // } catch(e) {
 //     console.log(e);
 // }
+
+
+try {
+    // Слайдер Услуга Современная стоматология
+    const optionSmartSlider = document.querySelector('.option__smart__slider'),
+          optionSmartSlides = optionSmartSlider.querySelectorAll('.option__smart__slider__item'),
+          optionSmartSliderNext = document.querySelector('#option__smart__slider__arrow-right'),
+          optionSmartSliderPrev = document.querySelector('#option__smart__slider__arrow-left'),
+          optionSmartSliderDotted = document.querySelectorAll('.option__smart__slider__dotted__item');
+    
+    let optionSmartSlideWidth = optionSmartSlides[0].getBoundingClientRect().width + parseInt(getComputedStyle(optionSmartSlides[0]).marginRight);
+    let currentSlide = 0;
+    let countSlides = optionSmartSlides.length;
+
+    function switchSlide() {
+        optionSmartSliderDotted.forEach(dot => {
+            dot.classList.remove('option__smart__slider__dotted__item-active');
+        });
+        optionSmartSliderDotted[currentSlide].classList.add('option__smart__slider__dotted__item-active');
+        optionSmartSlides.forEach(slide => {
+            slide.style.transform = "translateX(-" + optionSmartSlideWidth * currentSlide + "px)";
+        });
+    }
+
+    optionSmartSliderNext.addEventListener('click', () => {
+        currentSlide++;
+        if (currentSlide >= countSlides)
+            currentSlide = 0;
+        switchSlide();
+    });
+
+    optionSmartSliderPrev.addEventListener('click', () => {
+        currentSlide--;
+        if (currentSlide < 0) 
+            currentSlide = countSlides - 1;
+        switchSlide();
+    });
+
+    optionSmartSliderDotted.forEach((dot, dotIndex) => {
+        dot.addEventListener('click', () => {
+            currentSlide = dotIndex;
+            switchSlide();
+        });
+    })
+} catch(e) {
+    console.log(e);
+}
