@@ -1116,7 +1116,7 @@ ul.dotted > li::before {
 
 .first-screen-1__banners__bg {
     position: absolute;
-    width: 50%;
+    width: 100%;
     z-index: 8;
 }
 
