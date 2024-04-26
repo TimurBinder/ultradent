@@ -17,6 +17,32 @@
             <a href="#"><img src="icon/social/tg.png" alt="WhatsApp"></a>
         </div>
     </div>
+
+    <div class="modal phone-modal">
+        <div class="modal-close">
+            <hr>
+            <hr>
+        </div>
+        <div class="modal__block">
+            <h2 class="modal__title">Обратный звонок</h2>
+            <form method="POST" class="modal__form">
+                <div class="modal__input-block">
+                    <span>Имя</span>
+                    <input type="text" required name="name" placeholder="Имя">
+                </div>
+                <div class="modal__input-block">
+                    <span>Телефон</span>
+                    <input type="tel" name="phone" required pattern="\+7[0-9]{10}" maxlength="12" placeholder="Телефон">
+                </div>
+                <div class="modal__checkbox-block checkbox-block">
+                    <input type="checkbox" name="agreement" required>
+                    <span>Я ознакомлен с Политикой конфиденциальности и даю свое Согласие на обработку персональных данных</span>
+                </div>
+                <button class="modal__btn btn1" type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+
     <div class="burger-menu hide">
         <div class="burger-menu__cross">
             <hr>
@@ -35,7 +61,7 @@
             <a href="/stocks.html" class="burger-menu__nav__item">Акции</a>
             <a href="/vacancy.html" class="burger-menu__nav__item">Вакансии</a>
         </nav>
-
+        
         <div class="burger-menu__info">
             <p class="burger-menu__info__phone-block">
                 Запись по телефону:
@@ -1430,7 +1456,6 @@
         <!-- Видео-отзывы -->
         <section class="video-reviews">
             <div class="content">
-    
                 <!-- Оффер -->
                 <div class="video-reviews__offer">
                     <h3 class="video-reviews__offer__title">Что наши пациенты говорят о нас</h3>

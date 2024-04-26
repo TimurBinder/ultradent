@@ -174,6 +174,35 @@ function openVideoModal(video) {
     img.removeAttribute('data-src');
 });
 
+// Модальные окна
+const modals = document.querySelectorAll('.modal');
+
+modals.forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if (e.target != modal.querySelector('.modal__block') 
+            && !modal.querySelector('.modal__block').contains(e.target))
+            modal.style.display = 'none';
+        $checkboxBlock = modal.querySelector('.checkbox-block');
+        if (e.target == $checkboxBlock || $checkboxBlock.contains(e.target)) {
+            if ($checkboxBlock.classList.contains('checkbox-block-active')) {
+                $checkboxBlock.classList.remove('checkbox-block-active');
+                $checkboxBlock.querySelector('input').checked = false;
+            } else {
+                $checkboxBlock.classList.add('checkbox-block-active');
+                $checkboxBlock.querySelector('input').checked = true;
+            }
+                
+        }
+    });
+    if (modal.classList.contains('phone-modal')) {
+        document.querySelectorAll('[data-call-modal]').forEach(openBtn => {
+            openBtn.addEventListener('click', () => {
+                modal.style.display = 'flex';
+            });
+        });
+    }
+});
+
 // Смена города
 try {
     const headerLocation = document.querySelector('.header__location__list');
@@ -560,27 +589,27 @@ try{
     });
 
     
-function switchOptionsHead(item) {
-    headItems.forEach(i => {
-        if (i.getBoundingClientRect().top > headItems[0].getBoundingClientRect().top)
-            i.classList.remove('options__head__item__checked-bottom');
+    function switchOptionsHead(item) {
+        headItems.forEach(i => {
+            if (i.getBoundingClientRect().top > headItems[0].getBoundingClientRect().top)
+                i.classList.remove('options__head__item__checked-bottom');
+            else
+                i.classList.remove('options__head__item__checked-top');
+        });
+
+        if (item.getBoundingClientRect().top > headItems[0].getBoundingClientRect().top)
+            item.classList.add('options__head__item__checked-bottom');
         else
-            i.classList.remove('options__head__item__checked-top');
-    });
+            item.classList.add('options__head__item__checked-top');
+    }
 
-    if (item.getBoundingClientRect().top > headItems[0].getBoundingClientRect().top)
-        item.classList.add('options__head__item__checked-bottom');
-    else
-        item.classList.add('options__head__item__checked-top');
-}
+    function switchOptions(index) {
+        optionsLists.forEach(i => {
+            i.classList.add('hide');
+        });
 
-function switchOptions(index) {
-    optionsLists.forEach(i => {
-        i.classList.add('hide');
-    });
-
-    optionsLists[index].classList.remove('hide');
-}
+        optionsLists[index].classList.remove('hide');
+    }
 
     // Мобильная
     if (window.screen.width <= 768) {
@@ -736,51 +765,6 @@ try {
 } catch(e) {
     console.log(e);
 }
-
-// function openPhotoModal(photo, parent) {
-//     let photoModal = document.createElement('div');
-//     photoModal.classList.add('photo__modal');
-//     photoModal.innerHTML = `<img src="${photo.src}" class="photo__modal__photo" controls> <div class="video-modal__cross"><hr class="video-modal__cross-line" id="video-modal__cross-line-1"><hr class="video-modal__cross-line" id="video-modal__cross-line-2"></div>`;
-
-//     document.body.append(photoModal);
-
-//     let photoModalCross = photoModal.querySelector('.video-modal__cross'),
-//         photoModalImg = photoModal.querySelector('.photo__modal__photo');
-//         photoModalCross.addEventListener('click', () => {
-//         videoModal.remove();
-//     });
-
-//     photoModal.addEventListener('touchstart', (e) => {
-//         e.preventDefault();
-//     });
-
-//     photoModal.addEventListener('click', (e) => {
-//         e.preventDefault();
-//         if (e.target != photoModalImg)
-//             photoModal.remove();
-//     });
-
-//     let firstTouch = 0;
-//     if (window.screen.width < 768) {
-//         photoModalImg.addEventListener('touchstart', (event) => {
-//             event.preventDefault();
-//             firstTouch = event;
-//         });
-
-//         photoModalImg.addEventListener('touchmove', (event) => {
-//             let transform = 
-//             photoModalImg.style.transform = `translateY(-${firstTouch.touches[0].clientY - event.touches[0].clientY}px) scale(${1 - ((firstTouch.touches[0].clientY - event.touches[0].clientY) / 1000)})`;
-//         });
-
-//         photoModalImg.addEventListener('touchend', (event) => {
-//             if (event.changedTouches[0].screenY < firstTouch.touches[0].screenY) {
-//                 photoModal.remove();
-//             } else {
-                
-//             }
-//         });
-//     }
-// }
 
 // Галерея
 try {
@@ -952,22 +936,6 @@ try {
     console.log("Unknow portfolio");
 }
 
-phoneMask();
-
-try {
-    const callModalBtn = document.querySelectorAll('[data-call-modal]');
-    const callModal = new CallModal();
-
-    callModalBtn.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            callModal.draw(document.querySelector('body'), 'beforeend');
-        });
-    });
-
-} catch(e) {
-    console.log(e);
-}
 
 // try {
     let vacancyOptions = 
@@ -1097,19 +1065,6 @@ try {
             ]
         },
     ];
-
-    const vacancyModalBtn = document.querySelectorAll('[data-vacancy-modal]');
-    let vacancyModalsArray = [];
-    vacancyOptions.forEach(option => {
-        vacancyModalsArray.push(new VacancyModal(option.vacancyName, option.descList));
-    });
-
-    vacancyModalBtn.forEach((btn, index) => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            vacancyModalsArray[index].draw(document.querySelector('body'), 'beforeend');
-        });
-    });
 // } catch(e) {
 //     console.log(e);
 // }
